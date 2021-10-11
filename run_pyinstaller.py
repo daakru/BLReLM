@@ -73,11 +73,13 @@ def make_specfile():
     #     'multiprocessing.util'
     # ]
 
+    # pyoptimize = 'set PYTHONOPTIMIZE=1 && '
+    pyoptimize = ''
     excstr = ' '.join([f'--exclude-module {m}' for m in excluded_modules])
     optstr = ' '.join(options)
     command = 'pyi-makespec'
     file = 'blrevive_loadout_manager.py'
-    cmdstr = f'{command} {optstr} {excstr} {file}'
+    cmdstr = f'{pyoptimize}{command} {optstr} {excstr} {file}'
     system(cmdstr)
 
 
@@ -111,7 +113,7 @@ def patch_specfile(filename='blrevive_loadout_manager.spec'):
                 # return line  # comment out to modify
                 # Implement modifications here
                 pattern = '= *[^,]*'
-                replace = '=(90, 190)'  # 62
+                replace = '=(104, 190)'
                 res_str = re.sub(pattern, replace, line)
                 return res_str
 
@@ -157,6 +159,13 @@ def patch_specfile(filename='blrevive_loadout_manager.spec'):
 
 
 def build_exec(clean=False):
+    # optstr = ''
+    # command = 'pyinstaller'
+    # specfile = 'blrevive_loadout_manager.spec'
+    # if clean:
+    #     optstr += ' --clean'
+    # cmdstr = f'set PYTHONOPTIMIZE=1 && {command}{optstr} {specfile}'
+    # system(cmdstr)
     if clean:
         PyInstaller.__main__.run([
             'blrevive_loadout_manager.spec',

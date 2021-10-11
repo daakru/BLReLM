@@ -316,7 +316,35 @@ class BLR_LMGR_FRAME ( wx.Frame ):
 
         bSizer11.Add( bSizer14, 1, wx.EXPAND, 5 )
 
-        bSizer15 = wx.BoxSizer( wx.VERTICAL )
+        bSizer15 = wx.BoxSizer( wx.HORIZONTAL )
+
+        bSizer15.SetMinSize( wx.Size( 512,-1 ) )
+        self.m_panel121 = wx.Panel( self.m_panel11, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        bSizer121 = wx.BoxSizer( wx.HORIZONTAL )
+
+        self.m_staticText61 = wx.StaticText( self.m_panel121, wx.ID_ANY, u"Export Path:", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_staticText61.Wrap( -1 )
+
+        self.m_staticText61.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHTTEXT ) )
+        self.m_staticText61.Enable( False )
+        self.m_staticText61.Hide()
+
+        bSizer121.Add( self.m_staticText61, 0, wx.ALIGN_CENTER_VERTICAL|wx.LEFT, 4 )
+
+        self.m_dirPicker1 = wx.DirPickerCtrl( self.m_panel121, wx.ID_ANY, wx.EmptyString, u"Select a folder", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DIR_MUST_EXIST|wx.DIRP_USE_TEXTCTRL )
+        self.m_dirPicker1.Enable( False )
+        self.m_dirPicker1.Hide()
+
+        bSizer121.Add( self.m_dirPicker1, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 4 )
+
+        self.m_button_export_loadout = wx.Button( self.m_panel121, wx.ID_ANY, u"Generate Loadout", wx.DefaultPosition, wx.DefaultSize, 0|wx.BORDER_THEME )
+        bSizer121.Add( self.m_button_export_loadout, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 4 )
+
+
+        self.m_panel121.SetSizer( bSizer121 )
+        self.m_panel121.Layout()
+        bSizer121.Fit( self.m_panel121 )
+        bSizer15.Add( self.m_panel121, 0, wx.ALL, 4 )
 
         self.m_scintilla1 = wx.stc.StyledTextCtrl( self.m_panel11, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_scintilla1.SetUseTabs ( False )
@@ -350,30 +378,8 @@ class BLR_LMGR_FRAME ( wx.Frame ):
         self.m_scintilla1.SetSelForeground( True, wx.SystemSettings.GetColour(wx.SYS_COLOUR_HIGHLIGHTTEXT ) )
         bSizer15.Add( self.m_scintilla1, 1, wx.ALL|wx.EXPAND, 4 )
 
-        self.m_panel121 = wx.Panel( self.m_panel11, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-        bSizer121 = wx.BoxSizer( wx.HORIZONTAL )
 
-        self.m_staticText61 = wx.StaticText( self.m_panel121, wx.ID_ANY, u"Export Path:", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.m_staticText61.Wrap( -1 )
-
-        self.m_staticText61.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHTTEXT ) )
-
-        bSizer121.Add( self.m_staticText61, 0, wx.ALIGN_CENTER_VERTICAL|wx.LEFT, 4 )
-
-        self.m_dirPicker1 = wx.DirPickerCtrl( self.m_panel121, wx.ID_ANY, wx.EmptyString, u"Select a folder", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DIR_MUST_EXIST|wx.DIRP_USE_TEXTCTRL )
-        bSizer121.Add( self.m_dirPicker1, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 4 )
-
-        self.m_button_export_loadout = wx.Button( self.m_panel121, wx.ID_ANY, u"Export Loadout", wx.DefaultPosition, wx.DefaultSize, 0 )
-        bSizer121.Add( self.m_button_export_loadout, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 4 )
-
-
-        self.m_panel121.SetSizer( bSizer121 )
-        self.m_panel121.Layout()
-        bSizer121.Fit( self.m_panel121 )
-        bSizer15.Add( self.m_panel121, 0, wx.EXPAND |wx.ALL, 4 )
-
-
-        bSizer11.Add( bSizer15, 1, wx.EXPAND, 5 )
+        bSizer11.Add( bSizer15, 0, wx.EXPAND, 5 )
 
 
         self.m_panel11.SetSizer( bSizer11 )

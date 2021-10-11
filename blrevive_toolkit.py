@@ -31,18 +31,22 @@ def modify_filepath(filepath):
 
 
 def get_receivers():
+    # return pd.read_csv(modify_filepath('data/receivers.csv'), dtype=str, header=None)[0].tolist()
     return np.genfromtxt(modify_filepath('data/receivers.csv'), delimiter=',', dtype=str)
 
 
 def get_stocks():
+    # return pd.read_csv(modify_filepath('data/stocks.csv'), dtype=str, header=None)[0].tolist()
     return np.genfromtxt(modify_filepath('data/stocks.csv'), delimiter=',', dtype=str)
 
 
 def get_barrels():
+    # return pd.read_csv(modify_filepath('data/barrels.csv'), dtype=str, header=None)[0].tolist()
     return np.genfromtxt(modify_filepath('data/barrels.csv'), delimiter=',', dtype=str)
 
 
 def get_scopes():
+    # return pd.read_csv(modify_filepath('data/scopes.csv'), dtype=str, header=None)[0].tolist()
     return np.genfromtxt(modify_filepath('data/scopes.csv'), delimiter=',', dtype=str)
 
 

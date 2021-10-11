@@ -2,10 +2,10 @@
 """
 BLRevive Loadout Manager | Loadout Generation UI for MagiCow's Server.
 
-Version 1.0
+Version 1.0.1
 Requires: wxPython, __WXFB_BLR_LMGR.py (vN/A),
           blrevive_toolkit.py (v1.0), wso.py (v1.3.0)
-          helpers_pyinstaller.py (v1.0), blrevive_gear.py (v0.1)
+          helpers_pyinstaller.py (v1.0), blrevive_gear.py (v1.0)
 
 @author: Kinetos#6935
 """
@@ -363,7 +363,7 @@ class BLRFrame(BLR_LMGR_FRAME):
 # --------------------------------------------------------------------------- #
 
     def set_equipped_gear(self, event):
-        print('SET EQUIPPED GEAR')
+        # print('SET EQUIPPED GEAR')
         fname = event.GetText()
         ui_path = 'resource/FoxGame/Content/Packages/UI2/'
         bitmap_path = self.df_primary.query('FriendlyName == @fname')
@@ -371,9 +371,14 @@ class BLRFrame(BLR_LMGR_FRAME):
             bitmap_path = bitmap_path.iloc[0].imageiconref
             bitmap_path = bitmap_path.replace('.', '/') + '.TGA'
             self.ln.dbwp(bitmap_path)
-            bitmap = wx.Image.ConvertToBitmap(wx.Image(resource_path(ui_path + bitmap_path)).Scale(64, 32))
+            image = wx.Image(resource_path(ui_path + bitmap_path))
+            if image.GetWidth() == image.GetHeight():
+                image = image.Scale(32, 32)
+            else:
+                image = image.Scale(64, 32)
+            bitmap = wx.Image.ConvertToBitmap(image)
         else:
-            bitmap = wx.Bitmap()
+            bitmap = wx.NullBitmap  # wx.Bitmap()
 
         if self.m_bmToggleBtn_blrlm_receiver.GetValue():
             self.m_staticText_blrlm_receiver.SetLabel(fname)
@@ -390,6 +395,8 @@ class BLRFrame(BLR_LMGR_FRAME):
         elif self.m_bmToggleBtn_blrlm_scope.GetValue():
             self.m_staticText_blrlm_scope.SetLabel(fname)
             self.m_bitmap_blrlm_scope.SetBitmap(bitmap)
+
+        self.export_current_loadouts()
 
 # --------------------------------------------------------------------------- #
 
@@ -507,6 +514,7 @@ class BLRFrame(BLR_LMGR_FRAME):
 
         self.update_main_preview_image(wx.NullBitmap)
         self.active_loadout = source
+        self.export_current_loadouts()
 
 # --------------------------------------------------------------------------- #
 
@@ -531,6 +539,53 @@ class BLRFrame(BLR_LMGR_FRAME):
             self.m_bmToggleBtnSecondary3.SetValue(False)
 
         self.listctrl_switch_loadout(source)
+
+# --------------------------------------------------------------------------- #
+
+# --------------------------------------------------------------------------- #
+
+    def export_current_loadouts(self):
+        player_name = self.user_settings['PlayerName']
+        self.loadouts[self.active_loadout] = self.create_blrevive_weapon()
+        empty_weapon = BLReviveWeapon.EmptyWeapon()
+        if 'm_bmToggleBtnPrimary1' in self.loadouts:
+            p1 = self.loadouts['m_bmToggleBtnPrimary1']
+        else:
+            p1 = empty_weapon
+        if 'm_bmToggleBtnSecondary1' in self.loadouts:
+            s1 = self.loadouts['m_bmToggleBtnSecondary1']
+        else:
+            s1 = empty_weapon
+
+        if 'm_bmToggleBtnPrimary2' in self.loadouts:
+            p2 = self.loadouts['m_bmToggleBtnPrimary2']
+        else:
+            p2 = BLReviveWeapon.EmptyWeapon()
+        if 'm_bmToggleBtnSecondary2' in self.loadouts:
+            s2 = self.loadouts['m_bmToggleBtnSecondary2']
+        else:
+            s2 = empty_weapon
+
+        if 'm_bmToggleBtnPrimary3' in self.loadouts:
+            p3 = self.loadouts['m_bmToggleBtnPrimary3']
+        else:
+            p3 = empty_weapon
+        if 'm_bmToggleBtnSecondary3' in self.loadouts:
+            s3 = self.loadouts['m_bmToggleBtnSecondary3']
+        else:
+            s3 = empty_weapon
+
+        loadout1 = BLReviveLoadout('loadout1', p1, s1, None, None, None, None, None)
+        loadout2 = BLReviveLoadout('loadout2', p2, s2, None, None, None, None, None)
+        loadout3 = BLReviveLoadout('loadout3', p3, s3, None, None, None, None, None)
+        loadout_json = blrtk.build_magicow_loadout(player_name, loadout1, loadout2, loadout3)
+
+        self.m_scintilla1.Freeze()
+        self.m_scintilla1.ClearAll()
+        self.m_scintilla1.SetEditable(True)
+        self.m_scintilla1.SetText(loadout_json)
+        self.m_scintilla1.SetEditable(False)
+        self.m_scintilla1.Thaw()
 
 # --------------------------------------------------------------------------- #
 
@@ -643,52 +698,37 @@ class BLRFrame(BLR_LMGR_FRAME):
 # --------------------------------------------------------------------------- #
 
     def m_button_export_loadoutOnButtonClick(self, event):
-        player_name = self.user_settings['PlayerName']
-        self.loadouts[self.active_loadout] = self.create_blrevive_weapon()
-        if 'm_bmToggleBtnPrimary1' in self.loadouts:
-            p1 = self.loadouts['m_bmToggleBtnPrimary1']
-        else:
-            p1 = BLReviveWeapon.EmptyWeapon()
-        if 'm_bmToggleBtnSecondary1' in self.loadouts:
-            s1 = self.loadouts['m_bmToggleBtnSecondary1']
-        else:
-            s1 = BLReviveWeapon.EmptyWeapon()
-
-        if 'm_bmToggleBtnPrimary2' in self.loadouts:
-            p2 = self.loadouts['m_bmToggleBtnPrimary2']
-        else:
-            p2 = BLReviveWeapon.EmptyWeapon()
-        if 'm_bmToggleBtnSecondary2' in self.loadouts:
-            s2 = self.loadouts['m_bmToggleBtnSecondary2']
-        else:
-            s2 = BLReviveWeapon.EmptyWeapon()
-
-        if 'm_bmToggleBtnPrimary3' in self.loadouts:
-            p3 = self.loadouts['m_bmToggleBtnPrimary3']
-        else:
-            p3 = BLReviveWeapon.EmptyWeapon()
-        if 'm_bmToggleBtnSecondary3' in self.loadouts:
-            s3 = self.loadouts['m_bmToggleBtnSecondary3']
-        else:
-            s3 = BLReviveWeapon.EmptyWeapon()
-
-        loadout1 = BLReviveLoadout('loadout1', p1, s1, None, None, None, None, None)
-        loadout2 = BLReviveLoadout('loadout2', p2, s2, None, None, None, None, None)
-        loadout3 = BLReviveLoadout('loadout3', p3, s3, None, None, None, None, None)
-        loadout_json = blrtk.build_magicow_loadout(player_name, loadout1, loadout2, loadout3)
-
-        self.m_scintilla1.Freeze()
-        self.m_scintilla1.ClearAll()
-        self.m_scintilla1.SetEditable(True)
-        self.m_scintilla1.SetText(loadout_json)
-        self.m_scintilla1.SetEditable(False)
-        self.m_scintilla1.Thaw()
+        self.export_current_loadouts()
         event.Skip()
 
 
 # --------------------------------------------------------------------------- #
 
 # --------------------------------------------------------------------------- #
+
+
+class wxApp_LocaleFix(wx.App):
+    def InitLocale(self):
+        """
+        Try to ensure that the C and Python locale is in sync with the wxWidgets
+        locale on Windows. If you have troubles from the default behavior of this
+        method you can override it in a derived class to behave differently.
+        Please report the problem you encountered.
+        """
+        self.ResetLocale()
+        if 'wxMSW' in wx.PlatformInfo:
+            import locale
+            try:
+                lang, enc = locale.getdefaultlocale()
+                self._initial_locale = wx.Locale(lang, lang[:2], lang)
+                # locale.setlocale(locale.LC_ALL, lang)
+                locale.setlocale(locale.LC_ALL, 'C')
+            except (ValueError, locale.Error) as ex:
+                target = wx.LogStderr()
+                orig = wx.Log.SetActiveTarget(target)
+                print("Unable to set default locale: '{}'".format(ex))
+                wx.LogError("Unable to set default locale: '{}'".format(ex))
+                wx.Log.SetActiveTarget(orig)
 
 
 def start_app(parent=None, logfile=None, debug=False):
@@ -709,7 +749,8 @@ def start_app(parent=None, logfile=None, debug=False):
     None.
 
     """
-    app = wx.App()
+    # app = wx.App()
+    app = wxApp_LocaleFix()
     frm = BLRFrame(parent, logfile, debug)
     frm.post_init()
     frm.Show()
