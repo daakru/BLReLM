@@ -1,0 +1,146 @@
+[
+    {
+        "NameID": "Health",
+        "ItemType": "Refill",
+        "ItemClass": "Health",
+        "Cost": "100,UnlockId",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_HealthRefill_128x128"
+    },
+    {
+        "NameID": "Ammo",
+        "ItemType": "Refill",
+        "ItemClass": "Ammo",
+        "Cost": "100,UnlockId",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_ExtraAmmo_128x128"
+    },
+    {
+        "NameID": "WpnPreset_FLA_0",
+        "ItemType": "HeavyWeapon",
+        "ItemClass": "FlameThrower",
+        "Cost": "350,UnlockId",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_Flamethrower_128x128",
+        "WPN": "FoxWeapon_FlameThrower"
+    },
+    {
+        "NameID": "WpnPreset_RL_1",
+        "ItemType": "Launcher",
+        "ItemClass": "Rocket",
+        "Cost": "400,UnlockId",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_RocketLauncherArmor_128x128",
+        "WPN": "FoxWeapon_RocketLauncher_AV\",Sco"
+    },
+    {
+        "NameID": "WpnPreset_HST_0",
+        "ItemType": "Hardsuit",
+        "ItemClass": "Assault",
+        "Cost": "1300",
+        "UnlockId": "20004",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_HardSuit_128x128",
+        "WPN": "FoxWeapon_HardSuitTargeter"
+    },
+    {
+        "NameID": "WpnPreset_RL_0",
+        "ItemType": "Launcher",
+        "ItemClass": "Rocket",
+        "Cost": "1000,UnlockId",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_RocketLauncherSwarm_128x128",
+        "WPN": "FoxWeapon_RocketLauncher",
+        "Sco": "FoxWeaponScope_RocketLauncher"
+    },
+    {
+        "NameID": "WpnPreset_AIR_0",
+        "ItemType": "AirStrike",
+        "ItemClass": "Explosive",
+        "Cost": "600,UnlockId",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_Airstrike_128x128",
+        "WPN": "FoxWeapon_AirStrike\",Sco",
+        "sto": "FoxWeaponStock_2"
+    },
+    {
+        "NameID": "WpnPreset_RG_0",
+        "ItemType": "HeavyWeapon",
+        "ItemClass": "RailGun",
+        "Cost": "750",
+        "UnlockId": "20005",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_Railgun_128x128",
+        "WPN": "FoxWeapon_RailGun"
+    },
+    {
+        "NameID": "WpnPreset_GL_0",
+        "ItemType": "Launcher",
+        "ItemClass": "Grenade",
+        "Cost": "500",
+        "UnlockId": "20007",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_GrenadeLauncher_128x128\",WPN"
+    },
+    {
+        "NameID": "WpnPreset_MG_0",
+        "ItemType": "HeavyWeapon",
+        "ItemClass": "MiniGun",
+        "Cost": "750,UnlockId",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_MiniGun_128x128\",WPN"
+    },
+    {
+        "NameID": "WpnPreset_DPT_0",
+        "ItemType": "Turret",
+        "ItemClass": "Deployable",
+        "Cost": "600",
+        "UnlockId": "20009",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_Turret_128x128\",WPN"
+    },
+    {
+        "NameID": "DepotAmmo",
+        "ItemType": "Refill",
+        "ItemClass": "Ammo",
+        "Cost": "250",
+        "UnlockId": "20010",
+        "ImageIconRef": "ui_newitemicons.Depot.t_Depot_HeavyAmmunition_128x128"
+    },
+    {
+        "NameID": "WpnPreset_KTN_0",
+        "ItemType": "Melee",
+        "ItemClass": "Katana",
+        "Cost": "350",
+        "UnlockId": "20012",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_Katana_128x128\",WPN"
+    },
+    {
+        "NameID": "WpnPreset_HSD_0",
+        "ItemType": "Decoy",
+        "ItemClass": "HSDecoy",
+        "Cost": "200,UnlockId",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_HardsuitHRVDecoy_128x128\",WPN"
+    },
+    {
+        "NameID": "WpnPreset_DP_0",
+        "ItemType": "Assault",
+        "ItemClass": "AI",
+        "Cost": "500,UnlockId",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_AssaultBot_128x128\",WPN"
+    },
+    {
+        "NameID": "WpnPreset_LHS_0",
+        "ItemType": "Hardsuit",
+        "ItemClass": "Light",
+        "Cost": "975",
+        "UnlockId": "20016",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_LightHardSuit_128x128\",WPN"
+    },
+    {
+        "NameID": "WpnPreset_JAM_0",
+        "ItemType": "Special",
+        "ItemClass": "Deployable",
+        "Cost": "1000",
+        "UnlockId": "20015",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_EMPMine_128x128\",WPN"
+    },
+    {
+        "NameID": "Antidote",
+        "ItemType": "Refill",
+        "ItemClass": "Health",
+        "Cost": "200",
+        "EffectAmount": "50",
+        "UnlockId": "20019",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_HealthRefill_128x128"
+    }
+]

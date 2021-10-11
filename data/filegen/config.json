@@ -1,0 +1,30 @@
+{
+    "allowedWeapons": [
+        "FoxWeapon_SMG",
+        "FoxWeapon_AssaultRifle",
+        "FoxWeapon_AR2",
+        "FoxWeapon_SniperRifle",
+        "FoxWeapon_SniperRifle2",
+        "FoxWeapon_BKT",
+        "FoxWeapon_Bullpup",
+        "FoxWeapon_BASniper",
+        "FoxWeapon_9mmPistol",
+        "FoxWeapon_45Pistol",
+        "FoxWeapon_AutoPistol",
+        "FoxWeapon_Revolver",
+        "FoxWeapon_MachinePistol",
+        "FoxWeapon_Shotgun",
+        "FoxWeapon_AutoShotgun",
+        "FoxWeapon_SMG2",
+        "FoxWeapon_RBKT",
+        "FoxWeapon_DartGun",
+        "FoxWeapon_SMGi",
+        "FoxWeapon_HeavySniper",
+        "FoxWeapon_Bullpup2",
+        "FoxWeapon_SnubNose",
+        "FoxWeapon_AK47",
+        "FoxWeapon_M4",
+        "FoxWeapon_CompoundBow",
+        "FoxWeapon_AR3"
+    ]
+}
