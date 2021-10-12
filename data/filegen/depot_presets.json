@@ -3,21 +3,24 @@
         "NameID": "Health",
         "ItemType": "Refill",
         "ItemClass": "Health",
-        "Cost": "100,UnlockId",
+        "Cost": "100",
+        "UnlockId": "20001",
         "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_HealthRefill_128x128"
     },
     {
         "NameID": "Ammo",
         "ItemType": "Refill",
         "ItemClass": "Ammo",
-        "Cost": "100,UnlockId",
+        "Cost": "100",
+        "UnlockId": "20000",
         "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_ExtraAmmo_128x128"
     },
     {
         "NameID": "WpnPreset_FLA_0",
         "ItemType": "HeavyWeapon",
         "ItemClass": "FlameThrower",
-        "Cost": "350,UnlockId",
+        "Cost": "350",
+        "UnlockId": "20003",
         "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_Flamethrower_128x128",
         "WPN": "FoxWeapon_FlameThrower"
     },
@@ -25,9 +28,11 @@
         "NameID": "WpnPreset_RL_1",
         "ItemType": "Launcher",
         "ItemClass": "Rocket",
-        "Cost": "400,UnlockId",
+        "Cost": "400",
+        "UnlockId": "20011",
         "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_RocketLauncherArmor_128x128",
-        "WPN": "FoxWeapon_RocketLauncher_AV\",Sco"
+        "WPN": "FoxWeapon_RocketLauncher_AV",
+        "Sco": "FoxWeaponScope_AVRocketLauncher"
     },
     {
         "NameID": "WpnPreset_HST_0",
@@ -42,7 +47,8 @@
         "NameID": "WpnPreset_RL_0",
         "ItemType": "Launcher",
         "ItemClass": "Rocket",
-        "Cost": "1000,UnlockId",
+        "Cost": "1000",
+        "UnlockId": "20002",
         "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_RocketLauncherSwarm_128x128",
         "WPN": "FoxWeapon_RocketLauncher",
         "Sco": "FoxWeaponScope_RocketLauncher"
@@ -51,9 +57,11 @@
         "NameID": "WpnPreset_AIR_0",
         "ItemType": "AirStrike",
         "ItemClass": "Explosive",
-        "Cost": "600,UnlockId",
+        "Cost": "600",
+        "UnlockId": "20006",
         "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_Airstrike_128x128",
-        "WPN": "FoxWeapon_AirStrike\",Sco",
+        "WPN": "FoxWeapon_AirStrike",
+        "Sco": "FoxWeaponScope_Default",
         "sto": "FoxWeaponStock_2"
     },
     {
@@ -71,14 +79,17 @@
         "ItemClass": "Grenade",
         "Cost": "500",
         "UnlockId": "20007",
-        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_GrenadeLauncher_128x128\",WPN"
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_GrenadeLauncher_128x128",
+        "WPN": "FoxWeapon_GrenadeLauncher"
     },
     {
         "NameID": "WpnPreset_MG_0",
         "ItemType": "HeavyWeapon",
         "ItemClass": "MiniGun",
-        "Cost": "750,UnlockId",
-        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_MiniGun_128x128\",WPN"
+        "Cost": "750",
+        "UnlockId": "20008",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_MiniGun_128x128",
+        "WPN": "FoxWeapon_MiniGun"
     },
     {
         "NameID": "WpnPreset_DPT_0",
@@ -86,7 +97,8 @@
         "ItemClass": "Deployable",
         "Cost": "600",
         "UnlockId": "20009",
-        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_Turret_128x128\",WPN"
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_Turret_128x128",
+        "WPN": "FoxWeapon_DeployableTurretContent"
     },
     {
         "NameID": "DepotAmmo",
@@ -102,21 +114,26 @@
         "ItemClass": "Katana",
         "Cost": "350",
         "UnlockId": "20012",
-        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_Katana_128x128\",WPN"
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_Katana_128x128",
+        "WPN": "FoxWeapon_Katana"
     },
     {
         "NameID": "WpnPreset_HSD_0",
         "ItemType": "Decoy",
         "ItemClass": "HSDecoy",
-        "Cost": "200,UnlockId",
-        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_HardsuitHRVDecoy_128x128\",WPN"
+        "Cost": "200",
+        "UnlockId": "20013",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_HardsuitHRVDecoy_128x128",
+        "WPN": "FoxWeapon_HSDecoy"
     },
     {
         "NameID": "WpnPreset_DP_0",
         "ItemType": "Assault",
         "ItemClass": "AI",
-        "Cost": "500,UnlockId",
-        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_AssaultBot_128x128\",WPN"
+        "Cost": "500",
+        "UnlockId": "20014",
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_AssaultBot_128x128",
+        "WPN": "FoxWeapon_BotTargeter"
     },
     {
         "NameID": "WpnPreset_LHS_0",
@@ -124,7 +141,8 @@
         "ItemClass": "Light",
         "Cost": "975",
         "UnlockId": "20016",
-        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_LightHardSuit_128x128\",WPN"
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_LightHardSuit_128x128",
+        "WPN": "FoxWeapon_HardSuitTargeterLight"
     },
     {
         "NameID": "WpnPreset_JAM_0",
@@ -132,7 +150,8 @@
         "ItemClass": "Deployable",
         "Cost": "1000",
         "UnlockId": "20015",
-        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_EMPMine_128x128\",WPN"
+        "ImageIconRef": "UI_NewItemIcons.Depot.t_Depot_EMPMine_128x128",
+        "WPN": "FoxWeapon_DeployableJammer"
     },
     {
         "NameID": "Antidote",

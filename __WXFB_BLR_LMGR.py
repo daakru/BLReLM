@@ -11,6 +11,7 @@ from bitmap_panel import BitmapPanel
 import wx
 import wx.xrc
 import wx.stc
+import wx.aui
 
 ###########################################################################
 ## Class BLR_LMGR_FRAME
@@ -416,6 +417,7 @@ class BLR_LMGR_FRAME ( wx.Frame ):
         self.m_listCtrl_blrlm_selector.Bind( wx.EVT_LIST_ITEM_ACTIVATED, self.m_listCtrl_blrlm_selectorOnListItemActivated )
         self.m_listCtrl_blrlm_selector.Bind( wx.EVT_LIST_ITEM_FOCUSED, self.m_listCtrl_blrlm_selectorOnListItemFocused )
         self.m_button_export_loadout.Bind( wx.EVT_BUTTON, self.m_button_export_loadoutOnButtonClick )
+        self.m_scintilla1.Bind( wx.EVT_LEFT_DCLICK, self.m_scintilla1OnLeftDClick )
 
     def __del__( self ):
         pass
@@ -469,5 +471,37 @@ class BLR_LMGR_FRAME ( wx.Frame ):
 
     def m_button_export_loadoutOnButtonClick( self, event ):
         event.Skip()
+
+    def m_scintilla1OnLeftDClick( self, event ):
+        event.Skip()
+
+
+###########################################################################
+## Class MyFrame2
+###########################################################################
+
+class MyFrame2 ( wx.Frame ):
+
+    def __init__( self, parent ):
+        wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+
+        self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+        self.m_mgr = wx.aui.AuiManager()
+        self.m_mgr.SetManagedWindow( self )
+        self.m_mgr.SetFlags(wx.aui.AUI_MGR_DEFAULT)
+
+        self.m_panel10 = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        self.m_panel10.SetMinSize( wx.Size( 134,92 ) )
+        self.m_panel10.SetMaxSize( wx.Size( 134,92 ) )
+
+        self.m_mgr.AddPane( self.m_panel10, wx.aui.AuiPaneInfo() .Center() .CaptionVisible( False ).CloseButton( False ).PaneBorder( False ).Gripper().Dock().Fixed().DockFixed( True ).BottomDockable( False ).LeftDockable( False ).RightDockable( False ).Floatable( False ).BestSize( wx.Size( 134,92 ) ).MinSize( wx.Size( 134,92 ) ).MaxSize( wx.Size( 134,92 ) ).Layer( 10 ) )
+
+
+        self.m_mgr.Update()
+        self.Centre( wx.BOTH )
+
+    def __del__( self ):
+        self.m_mgr.UnInit()
+
 
 

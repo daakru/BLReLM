@@ -10,6 +10,7 @@ Requires: wxPython, __WXFB_BLR_LMGR.py (vN/A),
 @author: Kinetos#6935
 """
 import wx
+from pandas.io.clipboard import copy
 import wso as wsobj
 import blrevive_toolkit as blrtk
 from __WXFB_BLR_LMGR import BLR_LMGR_FRAME
@@ -81,7 +82,11 @@ class BLRFrame(BLR_LMGR_FRAME):
 # --------------------------------------------------------------------------- #
 
         # Scintilla
+        # print(f'Lexer: {self.m_scintilla1.GetLexer()}')
         self.m_scintilla1.StyleSetFont(0, self.font_blr_UI)
+        self.m_scintilla1.SetUseHorizontalScrollBar(False)
+        self.m_scintilla1.SetLexer(wx.stc.STC_LEX_CONF)
+        # self.m_scintilla1.SetVScrollBar() SetMouseWheelCaptures SetMouseDownCaptures
 
         # List Control
         headerattr = wx.ItemAttr()
@@ -368,7 +373,7 @@ class BLRFrame(BLR_LMGR_FRAME):
         ui_path = 'resource/FoxGame/Content/Packages/UI2/'
         bitmap_path = self.df_primary.query('FriendlyName == @fname')
         if not bitmap_path.empty:
-            bitmap_path = bitmap_path.iloc[0].imageiconref
+            bitmap_path = bitmap_path.iloc[0].ImageIconRef
             bitmap_path = bitmap_path.replace('.', '/') + '.TGA'
             self.ln.dbwp(bitmap_path)
             image = wx.Image(resource_path(ui_path + bitmap_path))
@@ -413,7 +418,7 @@ class BLRFrame(BLR_LMGR_FRAME):
         rec = self.df_primary.query('FriendlyName == @fname')
         if not rec.empty:
             name = rec.iloc[0].WPN
-            bitmap_path = (rec.iloc[0].imageiconref).replace('.', '/') + '.TGA'
+            bitmap_path = (rec.iloc[0].ImageIconRef).replace('.', '/') + '.TGA'
             small_bitmap = (rec.iloc[0].ImageIconRef).replace('.', '/') + '.TGA'
         else:
             name = None
@@ -688,7 +693,7 @@ class BLRFrame(BLR_LMGR_FRAME):
         ui_path = 'resource/FoxGame/Content/Packages/UI2/'
         bitmap_path = self.df_primary.query('FriendlyName == @event.GetText()')
         if not bitmap_path.empty:
-            bitmap_path = bitmap_path.iloc[0].imageiconref
+            bitmap_path = bitmap_path.iloc[0].ImageIconRef
             bitmap_path = bitmap_path.replace('.', '/') + '.TGA'
             self.ln.dbwp(bitmap_path)
             bitmap = wx.Bitmap(resource_path(ui_path + bitmap_path), wx.BITMAP_TYPE_ANY)
@@ -699,6 +704,11 @@ class BLRFrame(BLR_LMGR_FRAME):
 
     def m_button_export_loadoutOnButtonClick(self, event):
         self.export_current_loadouts()
+        event.Skip()
+
+    def m_scintilla1OnLeftDClick(self, event):
+        # Copy the text to clipboard on a double click
+        copy(self.m_scintilla1.GetText())
         event.Skip()
 
 
