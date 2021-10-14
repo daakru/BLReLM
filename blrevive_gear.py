@@ -71,6 +71,17 @@ class BLReviveGear:
     def EmptyGear():
         return BLReviveGear(None, '')
 
+# --------------------------------------------------------------------------- #
+
+    def to_dict(self):
+        return {
+            'config_name': self.config_name,
+            'friendly_name': self.friendly_name,
+            'image_path': self.image_icon_path,
+            'icon_path': self.small_icon_path,
+            'gear_types': self.gear_types
+        }
+
 
 # --------------------------------------------------------------------------- #
 
@@ -151,6 +162,26 @@ class BLReviveWeapon:
         weapon['Barrel'] = self.barrel.friendly_name
         weapon['Scope'] = self.scope.friendly_name
         return weapon
+
+    def LoadWeapon(weapon_dict):
+        if 'name' not in weapon_dict:
+            return BLReviveWeapon.EmptyWeapon()
+        return BLReviveWeapon(
+            weapon_dict['name'],
+            BLReviveReceiver(*weapon_dict['receiver'].values()),
+            BLReviveStock(*weapon_dict['stock'].values()),
+            BLReviveBarrel(*weapon_dict['barrel'].values()),
+            BLReviveScope(*weapon_dict['scope'].values())
+        )
+
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'receiver': self.receiver.to_dict(),
+            'stock': self.stock.to_dict(),
+            'barrel': self.barrel.to_dict(),
+            'scope': self.scope.to_dict()
+        }
 
 
 # --------------------------------------------------------------------------- #

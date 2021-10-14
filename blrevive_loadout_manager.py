@@ -12,6 +12,7 @@ Requires: wxPython, __WXFB_BLR_LMGR.py (vN/A),
 import wx
 from pandas.io.clipboard import copy
 import wso as wsobj
+from blrevive_enums import Gear, UIGear
 import blrevive_toolkit as blrtk
 from __WXFB_BLR_LMGR import BLR_LMGR_FRAME
 from helpers_pyinstaller import resource_path
@@ -46,8 +47,8 @@ class BLRFrame(BLR_LMGR_FRAME):
         # Load user settings from settings.json
         self.user_settings = blrtk.get_user_config()
 
-        self.loadouts = {}
-        self.active_loadout = 'm_bmToggleBtnPrimary1'
+        self.gear_slots = blrtk.load_saved_session()
+        self.active_loadout = Gear.P1
         self.m_bmToggleBtnPrimary1.SetValue(True)
 
         # Add fonts
@@ -175,19 +176,6 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.m_staticText_blrlm_barrel.SetFont(self.font_blr_UI_12)
         self.m_staticText_blrlm_scope.SetFont(self.font_blr_UI_12)
 
-        def ListCompareFunction(item1, item2):
-            item1 = str(item1)
-            item2 = str(item2)
-            item1 = self.df_primary.query('unlockid == @item1')['FriendlyName'][0]
-            item2 = self.df_primary.query('unlockid == @item2')['FriendlyName'][0]
-            if item1.upper() < item2.upper():
-                return -1
-            elif item1.upper() == item2.upper():
-                return 0
-            return 1
-
-        self.m_listCtrl_blrlm_selector.SortItems(ListCompareFunction)
-
 # --------------------------------------------------------------------------- #
 
 # --------------------------------------------------------------------------- #
@@ -210,6 +198,21 @@ class BLRFrame(BLR_LMGR_FRAME):
 
 # --------------------------------------------------------------------------- #
 
+    def listctrl_sort_rows(self):
+        def ListCompareFunction(item1, item2):
+            item1 = str(item1)
+            item2 = str(item2)
+            item1 = self.df_primary.query('unlockid == @item1')['FriendlyName'][0]
+            item2 = self.df_primary.query('unlockid == @item2')['FriendlyName'][0]
+            if item1.upper() < item2.upper():
+                return -1
+            elif item1.upper() == item2.upper():
+                return 0
+            return 1
+        self.m_listCtrl_blrlm_selector.SortItems(ListCompareFunction)
+
+# --------------------------------------------------------------------------- #
+
     def listctrl_format_items(self):
         # Update Font
         for row in range(self.m_listCtrl_blrlm_selector.GetItemCount()):
@@ -221,6 +224,7 @@ class BLRFrame(BLR_LMGR_FRAME):
             self.m_listCtrl_blrlm_selector.SetColumnWidth(col, -1)
             if width > self.m_listCtrl_blrlm_selector.GetColumnWidth(col):
                 self.m_listCtrl_blrlm_selector.SetColumnWidth(col, -2)
+        # self.listctrl_sort_rows()
 
 # --------------------------------------------------------------------------- #
 
@@ -360,8 +364,8 @@ class BLRFrame(BLR_LMGR_FRAME):
 
 # --------------------------------------------------------------------------- #
 
-    def post_init(self):
-        self.listctrl_load_receivers()
+    # def post_init(self):
+    #     self.listctrl_load_receivers()
 
 # --------------------------------------------------------------------------- #
 
@@ -412,7 +416,7 @@ class BLRFrame(BLR_LMGR_FRAME):
 
 # --------------------------------------------------------------------------- #
 
-    def create_blrevive_weapon(self, name=None):
+    def create_blrevive_weapon(self):
         # config_name, friendly_name, image_icon_path=None, small_icon_path=None, gear_types=[]
         fname = self.m_staticText_blrlm_receiver.GetLabelText()
         rec = self.df_primary.query('FriendlyName == @fname')
@@ -445,22 +449,40 @@ class BLRFrame(BLR_LMGR_FRAME):
         if weapon.receiver.GetImageIconPath() is not None:
             bitmap = wx.Image.ConvertToBitmap(wx.Image(resource_path(ui_path + weapon.receiver.GetImageIconPath())).Scale(64, 32))
             self.m_bitmap_blrlm_receiver.SetBitmap(bitmap)
+        else:
+            self.m_bitmap_blrlm_receiver.SetBitmap(wx.NullBitmap)
         self.m_staticText_blrlm_receiver.SetLabel(weapon.receiver.GetFriendlyName())
 
         if weapon.stock.GetImageIconPath() is not None:
             bitmap = wx.Image.ConvertToBitmap(wx.Image(resource_path(ui_path + weapon.stock.GetImageIconPath())).Scale(64, 32))
             self.m_bitmap_blrlm_stock.SetBitmap(bitmap)
+        else:
+            self.m_bitmap_blrlm_stock.SetBitmap(wx.NullBitmap)
         self.m_staticText_blrlm_stock.SetLabel(weapon.stock.GetFriendlyName())
 
         if weapon.barrel.GetImageIconPath() is not None:
             bitmap = wx.Image.ConvertToBitmap(wx.Image(resource_path(ui_path + weapon.barrel.GetImageIconPath())).Scale(64, 32))
             self.m_bitmap_blrlm_barrel.SetBitmap(bitmap)
+        else:
+            self.m_bitmap_blrlm_barrel.SetBitmap(wx.NullBitmap)
         self.m_staticText_blrlm_barrel.SetLabel(weapon.barrel.GetFriendlyName())
 
         if weapon.scope.GetImageIconPath() is not None:
             bitmap = wx.Image.ConvertToBitmap(wx.Image(resource_path(ui_path + weapon.scope.GetImageIconPath())).Scale(64, 32))
             self.m_bitmap_blrlm_scope.SetBitmap(bitmap)
+        else:
+            self.m_bitmap_blrlm_scope.SetBitmap(wx.NullBitmap)
         self.m_staticText_blrlm_scope.SetLabel(weapon.scope.GetFriendlyName())
+
+# --------------------------------------------------------------------------- #
+
+# --------------------------------------------------------------------------- #
+
+    def post_init(self):
+        self.listctrl_load_receivers()
+        # breakpoint()
+        if self.active_loadout.name in self.gear_slots:
+            self.load_blrevive_weapon(self.gear_slots[self.active_loadout.name])
 
 # --------------------------------------------------------------------------- #
 
@@ -506,13 +528,27 @@ class BLRFrame(BLR_LMGR_FRAME):
 # --------------------------------------------------------------------------- #
 
     def listctrl_switch_loadout(self, source):
+        """
+        Swap the active gear if necessary.
+
+        Parameters
+        ----------
+        source : Gear
+            Gear Enum for the gear slot that should be swapped.
+
+        Returns
+        -------
+        bool
+            Returns False if nothing should be swapped.
+
+        """
         if source == self.active_loadout:
             return False
 
-        self.loadouts[self.active_loadout] = self.create_blrevive_weapon(self.active_loadout)
+        self.gear_slots[self.active_loadout.name] = self.create_blrevive_weapon()
 
-        if source in self.loadouts:
-            self.load_blrevive_weapon(self.loadouts[source])
+        if source.name in self.gear_slots:
+            self.load_blrevive_weapon(self.gear_slots[source.name])
 
         else:
             self.clear_equipped_weapon()
@@ -520,30 +556,44 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.update_main_preview_image(wx.NullBitmap)
         self.active_loadout = source
         self.export_current_loadouts()
+        return True
 
 # --------------------------------------------------------------------------- #
 
     def handle_loadout_toggle(self, source):
+        """
+        Handler for loadout UI toggle events.
+
+        Parameters
+        ----------
+        source : UIGear
+            UIGear Enum for the UI component this was called from.
+
+        Returns
+        -------
+        None.
+
+        """
         # Untoggle any other loadout toggles, save, then load the correct data
-        if source != 'm_bmToggleBtnPrimary1':
+        if source != UIGear.m_bmToggleBtnPrimary1:
             self.m_bmToggleBtnPrimary1.SetValue(False)
 
-        if source != 'm_bmToggleBtnPrimary2':
+        if source != UIGear.m_bmToggleBtnPrimary2:
             self.m_bmToggleBtnPrimary2.SetValue(False)
 
-        if source != 'm_bmToggleBtnPrimary3':
+        if source != UIGear.m_bmToggleBtnPrimary3:
             self.m_bmToggleBtnPrimary3.SetValue(False)
 
-        if source != 'm_bmToggleBtnSecondary1':
+        if source != UIGear.m_bmToggleBtnSecondary1:
             self.m_bmToggleBtnSecondary1.SetValue(False)
 
-        if source != 'm_bmToggleBtnSecondary2':
+        if source != UIGear.m_bmToggleBtnSecondary2:
             self.m_bmToggleBtnSecondary2.SetValue(False)
 
-        if source != 'm_bmToggleBtnSecondary3':
+        if source != UIGear.m_bmToggleBtnSecondary3:
             self.m_bmToggleBtnSecondary3.SetValue(False)
 
-        self.listctrl_switch_loadout(source)
+        self.listctrl_switch_loadout(Gear(source.value))
 
 # --------------------------------------------------------------------------- #
 
@@ -551,32 +601,32 @@ class BLRFrame(BLR_LMGR_FRAME):
 
     def export_current_loadouts(self):
         player_name = self.user_settings['PlayerName']
-        self.loadouts[self.active_loadout] = self.create_blrevive_weapon()
+        self.gear_slots[self.active_loadout.name] = self.create_blrevive_weapon()
         empty_weapon = BLReviveWeapon.EmptyWeapon()
-        if 'm_bmToggleBtnPrimary1' in self.loadouts:
-            p1 = self.loadouts['m_bmToggleBtnPrimary1']
+        if Gear.P1.name in self.gear_slots:
+            p1 = self.gear_slots[Gear.P1.name]
         else:
             p1 = empty_weapon
-        if 'm_bmToggleBtnSecondary1' in self.loadouts:
-            s1 = self.loadouts['m_bmToggleBtnSecondary1']
+        if Gear.S1.name in self.gear_slots:
+            s1 = self.gear_slots[Gear.S1.name]
         else:
             s1 = empty_weapon
 
-        if 'm_bmToggleBtnPrimary2' in self.loadouts:
-            p2 = self.loadouts['m_bmToggleBtnPrimary2']
+        if Gear.P2.name in self.gear_slots:
+            p2 = self.gear_slots[Gear.P2.name]
         else:
             p2 = BLReviveWeapon.EmptyWeapon()
-        if 'm_bmToggleBtnSecondary2' in self.loadouts:
-            s2 = self.loadouts['m_bmToggleBtnSecondary2']
+        if Gear.S2.name in self.gear_slots:
+            s2 = self.gear_slots[Gear.S2.name]
         else:
             s2 = empty_weapon
 
-        if 'm_bmToggleBtnPrimary3' in self.loadouts:
-            p3 = self.loadouts['m_bmToggleBtnPrimary3']
+        if Gear.P3.name in self.gear_slots:
+            p3 = self.gear_slots[Gear.P3.name]
         else:
             p3 = empty_weapon
-        if 'm_bmToggleBtnSecondary3' in self.loadouts:
-            s3 = self.loadouts['m_bmToggleBtnSecondary3']
+        if Gear.S3.name in self.gear_slots:
+            s3 = self.gear_slots[Gear.S3.name]
         else:
             s3 = empty_weapon
 
@@ -591,6 +641,42 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.m_scintilla1.SetText(loadout_json)
         self.m_scintilla1.SetEditable(False)
         self.m_scintilla1.Thaw()
+
+    def export_current_session(self):
+        self.gear_slots[self.active_loadout.name] = self.create_blrevive_weapon()
+        empty_weapon = BLReviveWeapon.EmptyWeapon()
+        if Gear.P1.name in self.gear_slots:
+            p1 = self.gear_slots[Gear.P1.name]
+        else:
+            p1 = empty_weapon
+        if Gear.S1.name in self.gear_slots:
+            s1 = self.gear_slots[Gear.S1.name]
+        else:
+            s1 = empty_weapon
+
+        if Gear.P2.name in self.gear_slots:
+            p2 = self.gear_slots[Gear.P2.name]
+        else:
+            p2 = BLReviveWeapon.EmptyWeapon()
+        if Gear.S2.name in self.gear_slots:
+            s2 = self.gear_slots[Gear.S2.name]
+        else:
+            s2 = empty_weapon
+
+        if Gear.P3.name in self.gear_slots:
+            p3 = self.gear_slots[Gear.P3.name]
+        else:
+            p3 = empty_weapon
+        if Gear.S3.name in self.gear_slots:
+            s3 = self.gear_slots[Gear.S3.name]
+        else:
+            s3 = empty_weapon
+
+        session = {Gear.P1.name: p1.to_dict(), Gear.S1.name: s1.to_dict(),
+                   Gear.P2.name: p2.to_dict(), Gear.S2.name: s2.to_dict(),
+                   Gear.P3.name: p3.to_dict(), Gear.S3.name: s3.to_dict()}
+
+        blrtk.write_saved_session(session)
 
 # --------------------------------------------------------------------------- #
 
@@ -641,42 +727,42 @@ class BLRFrame(BLR_LMGR_FRAME):
 
     def m_bmToggleBtnPrimary1OnToggleButton(self, event):
         if self.m_bmToggleBtnPrimary1.GetValue():
-            self.handle_loadout_toggle('m_bmToggleBtnPrimary1')
+            self.handle_loadout_toggle(UIGear.m_bmToggleBtnPrimary1)
         else:
             self.m_bmToggleBtnPrimary1.SetValue(True)
         event.Skip()
 
     def m_bmToggleBtnSecondary1OnToggleButton(self, event):
         if self.m_bmToggleBtnSecondary1.GetValue():
-            self.handle_loadout_toggle('m_bmToggleBtnSecondary1')
+            self.handle_loadout_toggle(UIGear.m_bmToggleBtnSecondary1)
         else:
             self.m_bmToggleBtnSecondary1.SetValue(True)
         event.Skip()
 
     def m_bmToggleBtnPrimary2OnToggleButton(self, event):
         if self.m_bmToggleBtnPrimary2.GetValue():
-            self.handle_loadout_toggle('m_bmToggleBtnPrimary2')
+            self.handle_loadout_toggle(UIGear.m_bmToggleBtnPrimary2)
         else:
             self.m_bmToggleBtnPrimary2.SetValue(True)
         event.Skip()
 
     def m_bmToggleBtnSecondary2OnToggleButton(self, event):
         if self.m_bmToggleBtnSecondary2.GetValue():
-            self.handle_loadout_toggle('m_bmToggleBtnSecondary2')
+            self.handle_loadout_toggle(UIGear.m_bmToggleBtnSecondary2)
         else:
             self.m_bmToggleBtnSecondary2.SetValue(True)
         event.Skip()
 
     def m_bmToggleBtnPrimary3OnToggleButton(self, event):
         if self.m_bmToggleBtnPrimary3.GetValue():
-            self.handle_loadout_toggle('m_bmToggleBtnPrimary3')
+            self.handle_loadout_toggle(UIGear.m_bmToggleBtnPrimary3)
         else:
             self.m_bmToggleBtnPrimary3.SetValue(True)
         event.Skip()
 
     def m_bmToggleBtnSecondary3OnToggleButton(self, event):
         if self.m_bmToggleBtnSecondary3.GetValue():
-            self.handle_loadout_toggle('m_bmToggleBtnSecondary3')
+            self.handle_loadout_toggle(UIGear.m_bmToggleBtnSecondary3)
         else:
             self.m_bmToggleBtnSecondary3.SetValue(True)
         event.Skip()
@@ -703,7 +789,8 @@ class BLRFrame(BLR_LMGR_FRAME):
 # --------------------------------------------------------------------------- #
 
     def m_button_export_loadoutOnButtonClick(self, event):
-        self.export_current_loadouts()
+        # self.export_current_loadouts()
+        self.export_current_session()
         event.Skip()
 
     def m_scintilla1OnLeftDClick(self, event):

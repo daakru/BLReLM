@@ -1,0 +1,190 @@
+{
+    "SavedSession": {
+        "P1": {
+            "name": "FoxWeapon_AssaultRifle",
+            "receiver": {
+                "config_name": "FoxWeapon_AssaultRifle",
+                "friendly_name": "Assault Rifle",
+                "image_path": "UI_NewItemIcons/Primary/t_AssultRifle_256x128.TGA",
+                "icon_path": "UI_NewItemIcons/Primary/t_AssultRifle_256x128.TGA",
+                "gear_types": []
+            },
+            "stock": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "barrel": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "scope": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            }
+        },
+        "S1": {
+            "name": null,
+            "receiver": {
+                "config_name": null,
+                "friendly_name": "Combat Knife Mk.1",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "stock": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "barrel": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "scope": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            }
+        },
+        "P2": {
+            "name": null,
+            "receiver": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "stock": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "barrel": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "scope": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            }
+        },
+        "S2": {
+            "name": null,
+            "receiver": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "stock": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "barrel": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "scope": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            }
+        },
+        "P3": {
+            "name": null,
+            "receiver": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "stock": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "barrel": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "scope": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            }
+        },
+        "S3": {
+            "name": null,
+            "receiver": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "stock": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "barrel": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "scope": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            }
+        }
+    }
+}

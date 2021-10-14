@@ -14,6 +14,8 @@ import configparser as cfp
 from os import getcwd
 from os.path import exists
 from helpers_pyinstaller import resource_path
+from blrevive_gear import BLReviveWeapon
+from blrevive_enums import Gear
 
 
 # --------------------------------------------------------------------------- #
@@ -115,6 +117,14 @@ def filter_dotFoxWeapon(value):
     return value.split('.')[-1].startswith('FoxWeapon_')
 
 
+def filter_FOXWEAPONMAGAZINE(value):
+    return value.startswith('FOXWEAPONMAGAZINE_')
+
+
+def filter_FOXWEAPONMUZZLE(value):
+    return value.startswith('FOXWEAPONMUZZLE_')
+
+
 # --------------------------------------------------------------------------- #
 
 # --------------------------------------------------------------------------- #
@@ -142,7 +152,7 @@ def extract_localization_cfg(targetdir, file, filter=None, loc=None):
 
     """
     if loc is None:
-        loc = cfp.ConfigParser(strict=False, comment_prefixes=('#', ';', '`'))
+        loc = cfp.ConfigParser(strict=False, comment_prefixes=('#', ';', '`', '%'))
     if not file.endswith('.INT'):
         file += '.INT'
     with open(modify_filepath(targetdir + file), encoding='utf-16-le') as fp:
@@ -182,8 +192,8 @@ def extract_config_cfg(targetdir, file, filter=None, cfg=None):
     """
     if cfg is None:
         cfg = cfp.ConfigParser(strict=False,
-                               comment_prefixes=('#', ';', '`'),
-                               delimiters=('=', ':', '.'))
+                               comment_prefixes=('#', ';', '`', '*', '/', 'WhiteRecievers.Empty'),
+                               delimiters=('=', ':'))
     if not file.endswith('.ini'):
         file += '.ini'
     with open(modify_filepath(targetdir + file)) as fp:
@@ -198,20 +208,23 @@ def extract_config_cfg(targetdir, file, filter=None, cfg=None):
 # --------------------------------------------------------------------------- #
 
 
-def get_weapon_localization_cfg(load=True, export=False):
+def get_weapon_localization_cfg(load=True, export=False, filter=filter_FOXWEAPON):
     output_file = 'data/filegen/foxgamecontent_loc.ini'
     if not load:
         # Build the config parser object and append the desired files
         configpath = 'resource/FoxGame/Localization/INT/'
         filenames = ['CHA', 'DLC1', 'DLC2', 'DLC3', 'DLC4', 'DLC5', 'DLC6',
                      'OS', 'PL', 'SND', 'WPN', 'WPNC', 'WPNG', 'WPNS']
+        # cfg = extract_localization_cfg(modify_filepath(configpath),
+        #                                'FoxGameContent_' + filenames.pop(0),
+        #                                filter_FOXWEAPON)
         cfg = extract_localization_cfg(modify_filepath(configpath),
-                                       'FoxGameContent_' + filenames.pop(0),
-                                       filter_FOXWEAPON)
+                                       'FoxGame',
+                                       filter)
         for fgc in filenames:
             cfg = extract_localization_cfg(modify_filepath(configpath),
                                            'FoxGameContent_' + str(fgc),
-                                           filter_FOXWEAPON, cfg)
+                                           filter, cfg)
         if export:
             # Open the output file and write the parser object to it
             with open(modify_filepath(output_file), 'w') as fp:
@@ -229,12 +242,250 @@ def get_weapon_localization_cfg(load=True, export=False):
 # --------------------------------------------------------------------------- #
 
 
-def get_default_weapon_cfg(load=True, export=False):
+def get_default_weapon_cfg(load=True, export=False, filter=filter_dotFoxWeapon):
     output_file = 'data/filegen/defaultweapon_cfg.ini'
     if not load:
         # Build the config parser object and append the desired files
         configpath = 'resource/FoxGame/Config/'  # 'data/v3.0494/'
         filenames = [
+            'DefaultAIAvatar',
+            'DefaultAIPresets',
+            'DefaultAirStrike',
+            'DefaultAK47',
+            'DefaultAmmo',
+            'DefaultAmmoPack',
+            'DefaultAmmoTypes',
+            'DefaultAR2',
+            'DefaultAR3',
+            'DefaultAssaultRifle',
+            'DefaultAutoPistol',
+            'DefaultAutoShotgun',
+            'DefaultAvatar',
+            'DefaultAvatarType',
+            'DefaultBadge',
+            'DefaultBarrel',
+            'DefaultBarricade',
+            'DefaultBASniper',
+            'DefaultBeacon',
+            'DefaultBKT',
+            'DefaultBullpup',
+            'DefaultBullpup2',
+            'defaultCivWeapons',
+            'DefaultCloak',
+            'DefaultCompat',
+            'DefaultCompoundBow',
+            'DefaultControllerBindings',
+            'DefaultControls',
+            'DefaultCrosshairs',
+            'DefaultCustomPlayerActor',
+            'DefaultDartGun',
+            'DefaultDeployableAI',
+            'DefaultEditor',
+            'DefaultEditorKeyBindings',
+            'DefaultEditorUserSettings',
+            'DefaultElectroGrenade',
+            'DefaultEmote',
+            'DefaultEngine',
+            'DefaultFlameThrower',
+            'DefaultFlashGrenade',
+            'DefaultFragGrenade',
+            'DefaultGame',
+            'DefaultGameModeInfo',
+            'DefaultGearInfo',
+            'DefaultGemInfo',
+            'DefaultGrenadeLauncher',
+            'DefaultGrip',
+            'DefaultHanger',
+            'DefaultHardSuitWeapons',
+            'DefaultHealGun',
+            'DefaultHeavySniper',
+            'DefaultHEFragGrenade',
+            'DefaultHelmet',
+            'DefaultHologram',
+            'DefaultHRVDecoy',
+            'DefaultHRVDisrupter',
+            'DefaultHRVJammer',
+            'DefaultHRVJammerPack',
+            'DefaultHud',
+            'DefaultHudSkins',
+            'DefaultInput',
+            'DefaultKeyBindings',
+            'DefaultKnife',
+            'DefaultLauncher',
+            'DefaultLightBar',
+            'DefaultLightmass',
+            'DefaultLoadout',
+            'DefaultLowerBody',
+            'DefaultM4',
+            'DefaultMachinePistol',
+            'DefaultMagazine',
+            'DefaultMapInfo',
+            'DefaultMiniGame',
+            'DefaultMiniGun',
+            'DefaultMuzzle',
+            'DefaultPatch',
+            'DefaultPawn',
+            'DefaultPickup',
+            'DefaultPistol_45',
+            'DefaultPistol_9mm',
+            'DefaultPlaylistGameInfo',
+            'DefaultPlaylistInventoryInfo',
+            'DefaultPlaylists',
+            'DefaultPrimarySkin',
+            'DefaultProfile',
+            'DefaultProfileFlag',
+            'DefaultProjectile',
+            'DefaultProximityMine',
+            'DefaultRailGun',
+            'DefaultRBKT',
+            'DefaultRepairGun',
+            'DefaultRevolver',
+            'DefaultScope',
+            'DefaultScoring',
+            'DefaultSecondarySkin',
+            'DefaultShotgun',
+            'DefaultSkillTree',
+            'DefaultSMG',
+            'DefaultSMG2',
+            'DefaultSMGi',
+            'DefaultSmokeGrenade',
+            'DefaultSNDBomb',
+            'DefaultSniperRifle',
+            'DefaultSniperRifle2',
+            'DefaultSnubNose',
+            'DefaultStock',
+            'DefaultStunMine',
+            'DefaultSyringe',
+            'DefaultSystemSettings',
+            'DefaultTacticalGear',
+            'DefaultTargeter',
+            'DefaultThrowingKnives',
+            'DefaultThrowingStar',
+            'DefaultTomahawk',
+            'DefaultToxicGrenade',
+            'DefaultTutorial',
+            'DefaultUI',
+            'DefaultUnlocks',
+            'DefaultUpperBody',
+            'DefaultWeapon',
+            'DynamicUI',
+            'FoxAIAvatar',
+            'FoxAIPresets',
+            'FoxAirStrike',
+            'FoxAK47',
+            'FoxAmmo',
+            'FoxAmmoPack',
+            'FoxAmmoTypes',
+            'FoxAR2',
+            'FoxAR3',
+            'FoxAssaultRifle',
+            'FoxAutoPistol',
+            'FoxAutoShotgun',
+            'FoxAvatar',
+            'FoxBadge',
+            'FoxBarrel',
+            'FoxBarricade',
+            'FoxBASniper',
+            'FoxBeacon',
+            'FoxBKT',
+            'FoxBullpup',
+            'FoxBullpup2',
+            'FoxCivWeapons',
+            'FoxCloak',
+            'FoxCompoundBow',
+            'FoxControllerBindings',
+            'FoxControls',
+            'FoxCustomPlayerActor',
+            'FoxDartGun',
+            'FoxDeployableAI',
+            'FoxEditor',
+            'FoxEditorKeyBindings',
+            'FoxEditorUserSettings',
+            'FoxElectroGrenade',
+            'FoxEmote',
+            'FoxEngine',
+            'FoxFlameThrower',
+            'FoxFlashGrenade',
+            'FoxFragGrenade',
+            'FoxGame',
+            'FoxGameModeInfo',
+            'FoxGearInfo',
+            'FoxGemInfo',
+            'FoxGrenadeLauncher',
+            'FoxGrip',
+            'FoxHanger',
+            'FoxHardSuitWeapons',
+            'FoxHealGun',
+            'FoxHeavySniper',
+            'FoxHEFragGrenade',
+            'FoxHelmet',
+            'FoxHologram',
+            'FoxHRVDecoy',
+            'FoxHRVDisrupter',
+            'FoxHRVJammer',
+            'FoxHUD',
+            'FoxHudSkins',
+            'FoxInput',
+            'FoxKeyBindings',
+            'FoxKnife',
+            'FoxLauncher',
+            'FoxLightBar',
+            'FoxLightmass',
+            'FoxLoadout',
+            'FoxLowerBody',
+            'FoxM4',
+            'FoxMachinePistol',
+            'FoxMagazine',
+            'FoxMapInfo',
+            'FoxMinigame',
+            'FoxMiniGun',
+            'FoxMuzzle',
+            'FoxPatch',
+            'FoxPawn',
+            'FoxPickup',
+            'FoxPistol_45',
+            'FoxPistol_9mm',
+            'FoxPlaylistGameInfo',
+            'FoxPlaylists',
+            'FoxPrimarySkin',
+            'FoxProfileFlag',
+            'FoxProjectile',
+            'FoxProximityMine',
+            'FoxRailGun',
+            'FoxRBKT',
+            'FoxRepairGun',
+            'FoxRevolver',
+            'FoxScope',
+            'FoxScoring',
+            'FoxSecondarySkin',
+            'FoxShotgun',
+            'FoxSkillTree',
+            'FoxSMG',
+            'FoxSMG2',
+            'FoxSMGi',
+            'FoxSmokeGrenade',
+            'FoxSNDBomb',
+            'FoxSniperRifle',
+            'FoxSniperRifle2',
+            'FoxSnubNose',
+            'FoxStock',
+            'FoxStunMine',
+            'FoxSyringe',
+            'FoxSystemSettings',
+            'FoxTacticalGear',
+            'FoxTargeter',
+            'FoxThrowingKnives',
+            'FoxThrowingStar',
+            'FoxTomahawk',
+            'FoxToxicGrenade',
+            'FoxTutorial',
+            'FoxUI',
+            'FoxUnlocks',
+            'FoxUpperBody',
+            'FoxWeapon'
+        ]
+
+        filenames2 = [
             'DefaultAirStrike.ini',
             'DefaultAK47.ini', 'DefaultAR2.ini', 'DefaultAR3.ini',
             'DefaultAssaultRifle.ini', 'DefaultAutoPistol.ini',
@@ -263,11 +514,11 @@ def get_default_weapon_cfg(load=True, export=False):
         ]
         cfg = extract_config_cfg(modify_filepath(configpath),
                                  filenames.pop(0),
-                                 filter_dotFoxWeapon)
+                                 filter)
         for filename in filenames:
             cfg = extract_config_cfg(modify_filepath(configpath),
                                      filename,
-                                     filter_dotFoxWeapon, cfg)
+                                     filter, cfg)
         if export:
             # Open the output file and write the parser object to it
             with open(modify_filepath(output_file), 'w') as fp:
@@ -283,6 +534,29 @@ def get_default_weapon_cfg(load=True, export=False):
 
 
 # --------------------------------------------------------------------------- #
+
+# --------------------------------------------------------------------------- #
+
+
+def config_parser_to_pandas(cfg):
+    option_set = set()
+    sections = cfg.sections()
+    for section in sections:
+        for a in cfg.options(section):
+            option_set.add(a)
+
+    df = pd.DataFrame(columns=sorted(option_set))
+
+    for section in sections:
+        values = []
+        for col in df.columns:
+            if cfg.has_option(section, col):
+                values.append(cfg.get(section, col))
+            else:
+                values.append(np.nan)
+        df.loc[section] = values
+
+    return df
 
 # --------------------------------------------------------------------------- #
 
@@ -320,7 +594,7 @@ def build_receivers_dataframe():
     def get_section(wpn):
         if type(wpn) != str:
             return np.nan
-        print(f'wpn:  {wpn}\ntype: {type(wpn)}')
+        # print(f'wpn:  {wpn}\ntype: {type(wpn)}')
         target = cfg_default_weapons.sections()
         target = next(x for x in target if x.split('.')[-1] == wpn)
         return target
@@ -341,7 +615,7 @@ def build_receivers_dataframe():
 
     def match_wpn(*wpn):
         if type(wpn[0]) != str:
-            print(f'wpn:  {wpn[0]}\ntype: {type(wpn[0])}')
+            # print(f'wpn:  {wpn[0]}\ntype: {type(wpn[0])}')
             return '_' + str(wpn[1])
         return cfg_foxgamecontent_wpn.get(wpn[0].upper(), 'friendlyname')
 
@@ -389,21 +663,23 @@ def build_receivers_dataframe():
 
     # breakpoint()
 
-    option_set = set()
-    for section in cfg_default_weapons.sections():
-        for a in cfg_default_weapons.options(section):
-            option_set.add(a)
+    dwini = config_parser_to_pandas(cfg_default_weapons)
 
-    dwini = pd.DataFrame(columns=sorted(option_set))
+    # option_set = set()
+    # for section in cfg_default_weapons.sections():
+    #     for a in cfg_default_weapons.options(section):
+    #         option_set.add(a)
 
-    for section in cfg_default_weapons.sections():
-        values = []
-        for col in dwini.columns:
-            if cfg_default_weapons.has_option(section, col):
-                values.append(cfg_default_weapons.get(section, col))
-            else:
-                values.append(np.nan)
-        dwini.loc[section] = values
+    # dwini = pd.DataFrame(columns=sorted(option_set))
+
+    # for section in cfg_default_weapons.sections():
+    #     values = []
+    #     for col in dwini.columns:
+    #         if cfg_default_weapons.has_option(section, col):
+    #             values.append(cfg_default_weapons.get(section, col))
+    #         else:
+    #             values.append(np.nan)
+    #     dwini.loc[section] = values
 
     df_primary = pd.merge(receivers, dwini, left_index=True, right_index=True)
     df_primary['imageiconref'] = df_primary['imageiconref'].apply(lambda a: str(a).strip('"'))
@@ -412,6 +688,42 @@ def build_receivers_dataframe():
     fix_image_paths(df_primary)
 
     return df_primary
+
+
+def generate_df_magazines():
+    cfg = extract_config_cfg('resource/FoxGame/Config/', 'DefaultMagazine.ini', None)
+    dmini = config_parser_to_pandas(cfg)
+
+    wloc = get_weapon_localization_cfg(False, False, filter_FOXWEAPONMAGAZINE)
+    df_wloc = config_parser_to_pandas(wloc)
+
+    df_wloc.index = [a.split(' ')[0] for a in df_wloc.index]
+    dmini = dmini.drop(labels=['FoxGame.FoxWeaponMagazine_Base'], axis=0)
+    dmini.index = [a.split(' ')[0].upper() for a in dmini.index]
+
+    df_magazines = pd.merge(dmini, df_wloc, left_index=True, right_index=True)
+    df_magazines.insert(0, 'LoadIndex', range(len(df_magazines.index)))
+    df_smaller_mags = df_magazines.filter(['LoadIndex', 'friendlyname', 'descriptorname', 'whiterecievers'], axis=1)
+
+    return df_magazines, df_smaller_mags
+
+
+def generate_df_muzzles():
+    cfg = extract_config_cfg('resource/FoxGame/Config/', 'DefaultMuzzle.ini', None)
+    dmini = config_parser_to_pandas(cfg)
+
+    wloc = get_weapon_localization_cfg(False, False, filter_FOXWEAPONMUZZLE)
+    df_wloc = config_parser_to_pandas(wloc)
+
+    df_wloc.index = [a.split(' ')[0] for a in df_wloc.index]
+    dmini = dmini.drop(labels=['FoxGame.FoxWeaponMuzzle_Base'], axis=0)
+    dmini.index = [a.split(' ')[0].upper() for a in dmini.index]
+
+    df_muzzles = pd.merge(dmini, df_wloc, left_index=True, right_index=True)
+    df_muzzles.insert(0, 'LoadIndex', range(len(df_muzzles.index)))
+    df_smaller_muzzles = df_muzzles.filter(['LoadIndex', 'friendlyname', 'descriptorname', 'whiterecievers'], axis=1)
+
+    return df_muzzles, df_smaller_muzzles
 
 
 # --------------------------------------------------------------------------- #
@@ -486,6 +798,26 @@ def get_user_config():
         return json.load(fp)
 
 
+def write_saved_session(session):
+    with open('./session.json', 'w') as fp:
+        json.dump({'SavedSession': session}, fp, indent=4)
+
+
+def load_saved_session():
+    if not exists('./session.json'):
+        with open('./session.json', 'w') as fp:
+            json.dump({'SavedSession': {}}, fp, indent=4)
+    with open('./session.json') as fp:
+        session = {}
+        i = 0
+        gearlist = json.load(fp)['SavedSession']
+        # breakpoint()
+        for gear in gearlist.values():
+            # breakpoint()
+            session[Gear(i).name] = BLReviveWeapon.LoadWeapon(gear)
+            i += 1
+        return session
+
 # --------------------------------------------------------------------------- #
 
 # --------------------------------------------------------------------------- #
@@ -544,8 +876,8 @@ if __name__ == "__main__":
     generate_weapon_loc_cfg()
 
     # Generate the main config file for the BLRevive Loadout Manager App
-    generate_blrlm_config_json()
+    # generate_blrlm_config_json()
 
-    # build_receivers_dataframe()
+    build_receivers_dataframe()
 
     # nan.TGA: Flamethrower, Grenade Launcher, Minigun, MK1 Assault AI, Railgun, Rhino Hardsuit, Rocket Stinger, Rocket Swarm
