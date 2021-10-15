@@ -12,7 +12,7 @@ Requires: wxPython, __WXFB_BLR_LMGR.py (vN/A),
 import wx
 from pandas.io.clipboard import copy
 import wso as wsobj
-from blrevive_enums import Gear, UIGear
+from blrevive_enums import Gear, UIGear, UIAttachment
 import blrevive_toolkit as blrtk
 from __WXFB_BLR_LMGR import BLR_LMGR_FRAME
 from helpers_pyinstaller import resource_path
@@ -84,7 +84,7 @@ class BLRFrame(BLR_LMGR_FRAME):
 
         # Scintilla
         # print(f'Lexer: {self.m_scintilla1.GetLexer()}')
-        self.m_scintilla1.StyleSetFont(0, self.font_blr_UI)
+        self.m_scintilla1.StyleSetFont(0, self.font_blr_UI_12)
         self.m_scintilla1.SetUseHorizontalScrollBar(False)
         self.m_scintilla1.SetLexer(wx.stc.STC_LEX_CONF)
         # self.m_scintilla1.SetVScrollBar() SetMouseWheelCaptures SetMouseDownCaptures
@@ -120,6 +120,16 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.m_bmToggleBtn_blrlm_scope.SetBitmap(wx.Image.ConvertToBitmap(image))
         image.Replace(255, 255, 255, 255, 165, 0)
         self.m_bmToggleBtn_blrlm_scope.SetBitmapPressed(wx.Image.ConvertToBitmap(image))
+
+        # Reset Buttons
+        image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/t_viewLast.TGA')).Resize(wx.Size(30, 34), wx.DefaultPosition)
+        self.m_bpButton_blrlm_receiver_reset.SetBitmap(wx.Image.ConvertToBitmap(image))
+
+        # UI_Icons/t_None00
+        image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/t_exitgame.TGA'))
+        self.m_bpButton_blrlm_stock_reset.SetBitmap(wx.Image.ConvertToBitmap(image))
+        self.m_bpButton_blrlm_barrel_reset.SetBitmap(wx.Image.ConvertToBitmap(image))
+        self.m_bpButton_blrlm_scope_reset.SetBitmap(wx.Image.ConvertToBitmap(image))
 
         # Loadout Toggle Buttons
         image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/UI_Icons/Gear/t_AR.TGA')).Scale(64, 64)
@@ -639,6 +649,7 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.m_scintilla1.ClearAll()
         self.m_scintilla1.SetEditable(True)
         self.m_scintilla1.SetText(loadout_json)
+        self.m_scintilla1.StyleSetFont(0, self.font_blr_UI_12)
         self.m_scintilla1.SetEditable(False)
         self.m_scintilla1.Thaw()
 
@@ -678,11 +689,67 @@ class BLRFrame(BLR_LMGR_FRAME):
 
         blrtk.write_saved_session(session)
 
+    def reset_attachment(self, source):
+        if source == UIAttachment.RECEIVER:
+            # Reset all attachments
+
+            # self.m_staticText_blrlm_muzzle.SetLabel('')
+            # self.m_bitmap_blrlm_muzzle.SetBitmap(wx.NullBitmap)
+
+            self.m_staticText_blrlm_stock.SetLabel('')
+            self.m_bitmap_blrlm_stock.SetBitmap(wx.NullBitmap)
+
+            self.m_staticText_blrlm_barrel.SetLabel('')
+            self.m_bitmap_blrlm_barrel.SetBitmap(wx.NullBitmap)
+
+            # self.m_staticText_blrlm_magazine.SetLabel('')
+            # self.m_bitmap_blrlm_magazine.SetBitmap(wx.NullBitmap)
+
+            self.m_staticText_blrlm_scope.SetLabel('')
+            self.m_bitmap_blrlm_scope.SetBitmap(wx.NullBitmap)
+
+            # self.m_staticText_blrlm_grip.SetLabel('')
+            # self.m_bitmap_blrlm_grip.SetBitmap(wx.NullBitmap)
+
+        elif source == UIAttachment.MUZZLE:
+            # self.m_staticText_blrlm_muzzle.SetLabel('')
+            # self.m_bitmap_blrlm_muzzle.SetBitmap(wx.NullBitmap)
+            pass
+
+        elif source == UIAttachment.STOCK:
+            self.m_staticText_blrlm_stock.SetLabel('')
+            self.m_bitmap_blrlm_stock.SetBitmap(wx.NullBitmap)
+
+        elif source == UIAttachment.BARREL:
+            self.m_staticText_blrlm_barrel.SetLabel('')
+            self.m_bitmap_blrlm_barrel.SetBitmap(wx.NullBitmap)
+
+        elif source == UIAttachment.MAGAZINE:
+            # self.m_staticText_blrlm_magazine.SetLabel('')
+            # self.m_bitmap_blrlm_magazine.SetBitmap(wx.NullBitmap)
+            pass
+
+        elif source == UIAttachment.SCOPE:
+            self.m_staticText_blrlm_scope.SetLabel('')
+            self.m_bitmap_blrlm_scope.SetBitmap(wx.NullBitmap)
+
+        elif source == UIAttachment.GRIP:
+            # self.m_staticText_blrlm_grip.SetLabel('')
+            # self.m_bitmap_blrlm_grip.SetBitmap(wx.NullBitmap)
+            pass
+
+        self.export_current_loadouts()
+
 # --------------------------------------------------------------------------- #
 
 # --------------------------------------------------------------------------- #
 
     # Virtual event handler overrides
+    def BLR_LMGR_FRAMEOnClose(self, event):
+        if self.m_menuItem_file_autosave.IsChecked():
+            self.export_current_session()
+        event.Skip()
+
     def m_bmToggleBtn_blrlm_receiverOnToggleButton(self, event):
         # print(self.m_bmToggleBtn_blrlm_receiver.GetValue())
         if self.m_bmToggleBtn_blrlm_receiver.GetValue():
@@ -710,6 +777,82 @@ class BLRFrame(BLR_LMGR_FRAME):
             self.handle_gear_toggle('m_bmToggleBtn_blrlm_scope')
         else:
             self.m_bmToggleBtn_blrlm_scope.SetValue(True)
+        event.Skip()
+
+    def m_panel_partselect_re1OnLeftUp(self, event):
+        self.m_bmToggleBtn_blrlm_receiver.SetValue(True)
+        self.m_bmToggleBtn_blrlm_receiverOnToggleButton(event)
+        # event.Skip()
+
+    def m_bitmap_blrlm_receiverOnLeftUp(self, event):
+        self.m_bmToggleBtn_blrlm_receiver.SetValue(True)
+        self.m_bmToggleBtn_blrlm_receiverOnToggleButton(event)
+        # event.Skip()
+
+    def m_staticText_blrlm_receiverOnLeftUp(self, event):
+        self.m_bmToggleBtn_blrlm_receiver.SetValue(True)
+        self.m_bmToggleBtn_blrlm_receiverOnToggleButton(event)
+        # event.Skip()
+
+    def m_panel_partselect_st1OnLeftUp(self, event):
+        self.m_bmToggleBtn_blrlm_stock.SetValue(True)
+        self.m_bmToggleBtn_blrlm_stockOnToggleButton(event)
+        # event.Skip()
+
+    def m_bitmap_blrlm_stockOnLeftUp(self, event):
+        self.m_bmToggleBtn_blrlm_stock.SetValue(True)
+        self.m_bmToggleBtn_blrlm_stockOnToggleButton(event)
+        # event.Skip()
+
+    def m_staticText_blrlm_stockOnLeftUp(self, event):
+        self.m_bmToggleBtn_blrlm_stock.SetValue(True)
+        self.m_bmToggleBtn_blrlm_stockOnToggleButton(event)
+        # event.Skip()
+
+    def m_panel_partselect_ba1OnLeftUp(self, event):
+        self.m_bmToggleBtn_blrlm_barrel.SetValue(True)
+        self.m_bmToggleBtn_blrlm_barrelOnToggleButton(event)
+        # event.Skip()
+
+    def m_bitmap_blrlm_barrelOnLeftUp(self, event):
+        self.m_bmToggleBtn_blrlm_barrel.SetValue(True)
+        self.m_bmToggleBtn_blrlm_barrelOnToggleButton(event)
+        # event.Skip()
+
+    def m_staticText_blrlm_barrelOnLeftUp(self, event):
+        self.m_bmToggleBtn_blrlm_barrel.SetValue(True)
+        self.m_bmToggleBtn_blrlm_barrelOnToggleButton(event)
+        # event.Skip()
+
+    def m_panel_partselect_sc1OnLeftUp(self, event):
+        self.m_bmToggleBtn_blrlm_scope.SetValue(True)
+        self.m_bmToggleBtn_blrlm_scopeOnToggleButton(event)
+        # event.Skip()
+
+    def m_bitmap_blrlm_scopeOnLeftUp(self, event):
+        self.m_bmToggleBtn_blrlm_scope.SetValue(True)
+        self.m_bmToggleBtn_blrlm_scopeOnToggleButton(event)
+        # event.Skip()
+
+    def m_staticText_blrlm_scopeOnLeftUp(self, event):
+        self.m_bmToggleBtn_blrlm_scope.SetValue(True)
+        self.m_bmToggleBtn_blrlm_scopeOnToggleButton(event)
+        # event.Skip()
+
+    def m_bpButton_blrlm_receiver_resetOnButtonClick(self, event):
+        self.reset_attachment(UIAttachment.RECEIVER)
+        event.Skip()
+
+    def m_bpButton_blrlm_stock_resetOnButtonClick(self, event):
+        self.reset_attachment(UIAttachment.STOCK)
+        event.Skip()
+
+    def m_bpButton_blrlm_barrel_resetOnButtonClick(self, event):
+        self.reset_attachment(UIAttachment.BARREL)
+        event.Skip()
+
+    def m_bpButton_blrlm_scope_resetOnButtonClick(self, event):
+        self.reset_attachment(UIAttachment.SCOPE)
         event.Skip()
 
 # --------------------------------------------------------------------------- #
@@ -796,6 +939,38 @@ class BLRFrame(BLR_LMGR_FRAME):
     def m_scintilla1OnLeftDClick(self, event):
         # Copy the text to clipboard on a double click
         copy(self.m_scintilla1.GetText())
+        event.Skip()
+
+    def m_menuItem_file_playernameOnMenuSelection(self, event):
+        # TODO: Add dialog box to enter a new player name
+        self.user_settings = blrtk.get_user_config()
+        event.Skip()
+
+    def m_menuItem_file_clearloadoutsOnMenuSelection(self, event):
+        # TODO: Add dialog box to confirm action
+        event.Skip()
+
+    def m_menuItem_file_savesessionOnMenuSelection(self, event):
+        self.export_current_session()
+        event.Skip()
+
+    def m_menuItem_file_loadsessionOnMenuSelection(self, event):
+        self.gear_slots = blrtk.load_saved_session()
+
+        if self.active_loadout.name in self.gear_slots:
+            self.load_blrevive_weapon(self.gear_slots[self.active_loadout.name])
+
+        else:
+            self.clear_equipped_weapon()
+
+        self.update_main_preview_image(wx.NullBitmap)
+        self.export_current_loadouts()
+        event.Skip()
+
+    def m_menuItem_file_autosaveOnMenuSelection(self, event):
+        event.Skip()
+
+    def m_menuItem_aboutOnMenuSelection(self, event):
         event.Skip()
 
 

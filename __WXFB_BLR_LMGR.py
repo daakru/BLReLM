@@ -76,6 +76,13 @@ class BLR_LMGR_FRAME ( wx.Frame ):
 
         bSizerPSRE1.Add( self.m_staticText_blrlm_receiver, 1, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 0 )
 
+        self.m_bpButton_blrlm_receiver_reset = wx.BitmapButton( self.m_panel_partselect_re1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BU_AUTODRAW|0|wx.BORDER_NONE )
+
+        self.m_bpButton_blrlm_receiver_reset.SetBitmapPosition( wx.BOTTOM )
+        self.m_bpButton_blrlm_receiver_reset.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSRE1.Add( self.m_bpButton_blrlm_receiver_reset, 0, wx.ALL, 0 )
+
 
         self.m_panel_partselect_re1.SetSizer( bSizerPSRE1 )
         self.m_panel_partselect_re1.Layout()
@@ -106,6 +113,11 @@ class BLR_LMGR_FRAME ( wx.Frame ):
         self.m_staticText_blrlm_stock.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHTTEXT ) )
 
         bSizerPSST1.Add( self.m_staticText_blrlm_stock, 1, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 0 )
+
+        self.m_bpButton_blrlm_stock_reset = wx.BitmapButton( self.m_panel_partselect_st1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BU_AUTODRAW|0|wx.BORDER_NONE )
+        self.m_bpButton_blrlm_stock_reset.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSST1.Add( self.m_bpButton_blrlm_stock_reset, 0, wx.ALL, 0 )
 
 
         self.m_panel_partselect_st1.SetSizer( bSizerPSST1 )
@@ -138,11 +150,16 @@ class BLR_LMGR_FRAME ( wx.Frame ):
 
         bSizerPSBA1.Add( self.m_staticText_blrlm_barrel, 1, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 0 )
 
+        self.m_bpButton_blrlm_barrel_reset = wx.BitmapButton( self.m_panel_partselect_ba1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BU_AUTODRAW|0|wx.BORDER_NONE )
+        self.m_bpButton_blrlm_barrel_reset.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSBA1.Add( self.m_bpButton_blrlm_barrel_reset, 0, wx.ALL, 0 )
+
 
         self.m_panel_partselect_ba1.SetSizer( bSizerPSBA1 )
         self.m_panel_partselect_ba1.Layout()
         bSizerPSBA1.Fit( self.m_panel_partselect_ba1 )
-        bSizerPartSelect.Add( self.m_panel_partselect_ba1, 0, wx.EXPAND |wx.ALL, 5 )
+        bSizerPartSelect.Add( self.m_panel_partselect_ba1, 0, wx.EXPAND |wx.ALL, 4 )
 
         self.m_panel_partselect_sc1 = wx.Panel( self.m_panel_partselect, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_SIMPLE )
         self.m_panel_partselect_sc1.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
@@ -169,11 +186,16 @@ class BLR_LMGR_FRAME ( wx.Frame ):
 
         bSizerPSSC1.Add( self.m_staticText_blrlm_scope, 1, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 0 )
 
+        self.m_bpButton_blrlm_scope_reset = wx.BitmapButton( self.m_panel_partselect_sc1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BU_AUTODRAW|0|wx.BORDER_NONE )
+        self.m_bpButton_blrlm_scope_reset.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSSC1.Add( self.m_bpButton_blrlm_scope_reset, 0, wx.ALL, 0 )
+
 
         self.m_panel_partselect_sc1.SetSizer( bSizerPSSC1 )
         self.m_panel_partselect_sc1.Layout()
         bSizerPSSC1.Fit( self.m_panel_partselect_sc1 )
-        bSizerPartSelect.Add( self.m_panel_partselect_sc1, 0, wx.EXPAND |wx.ALL, 5 )
+        bSizerPartSelect.Add( self.m_panel_partselect_sc1, 0, wx.EXPAND |wx.ALL, 4 )
 
 
         bSizer19.Add( bSizerPartSelect, 0, wx.EXPAND, 0 )
@@ -320,6 +342,9 @@ class BLR_LMGR_FRAME ( wx.Frame ):
 
         bSizer15.SetMinSize( wx.Size( 512,-1 ) )
         self.m_panel121 = wx.Panel( self.m_panel11, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        self.m_panel121.Enable( False )
+        self.m_panel121.Hide()
+
         bSizer121 = wx.BoxSizer( wx.HORIZONTAL )
 
         self.m_staticText61 = wx.StaticText( self.m_panel121, wx.ID_ANY, u"Export Path:", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -393,17 +418,79 @@ class BLR_LMGR_FRAME ( wx.Frame ):
 
         self.SetSizer( bSizer_blrlm_main )
         self.Layout()
-        self.m_menubar1 = wx.MenuBar( 0 )
+        self.m_menubar1 = wx.MenuBar( 0|wx.BORDER_THEME|wx.CLIP_CHILDREN )
+        self.file = wx.Menu()
+        self.m_menuItem_file_playername = wx.MenuItem( self.file, wx.ID_ANY, u"Change Player Name", wx.EmptyString, wx.ITEM_NORMAL )
+        self.file.Append( self.m_menuItem_file_playername )
+        self.m_menuItem_file_playername.Enable( False )
+
+        self.m_menuItem_file_clearloadouts = wx.MenuItem( self.file, wx.ID_ANY, u"Clear All Loadouts", wx.EmptyString, wx.ITEM_NORMAL )
+        self.file.Append( self.m_menuItem_file_clearloadouts )
+        self.m_menuItem_file_clearloadouts.Enable( False )
+
+        self.m_menuItem_file_savesession = wx.MenuItem( self.file, wx.ID_ANY, u"Save Session", wx.EmptyString, wx.ITEM_NORMAL )
+        self.file.Append( self.m_menuItem_file_savesession )
+
+        self.m_menuItem_file_loadsession = wx.MenuItem( self.file, wx.ID_ANY, u"Load Session", wx.EmptyString, wx.ITEM_NORMAL )
+        self.file.Append( self.m_menuItem_file_loadsession )
+
+        self.m_menuItem_file_autosave = wx.MenuItem( self.file, wx.ID_ANY, u"Save Session on Exit", wx.EmptyString, wx.ITEM_CHECK )
+        self.file.Append( self.m_menuItem_file_autosave )
+        self.m_menuItem_file_autosave.Check( True )
+
+        self.m_menubar1.Append( self.file, u"File" )
+
+        self.edit = wx.Menu()
+        self.m_menuItem_edit_swapweapon = wx.MenuItem( self.edit, wx.ID_ANY, u"Swap Weapon", wx.EmptyString, wx.ITEM_NORMAL )
+        self.edit.Append( self.m_menuItem_edit_swapweapon )
+        self.m_menuItem_edit_swapweapon.Enable( False )
+
+        self.m_menubar1.Append( self.edit, u"Edit" )
+
+        self.view = wx.Menu()
+        self.m_menuItem_view_0 = wx.MenuItem( self.view, wx.ID_ANY, u"Some checkbox thing", wx.EmptyString, wx.ITEM_CHECK )
+        self.view.Append( self.m_menuItem_view_0 )
+        self.m_menuItem_view_0.Enable( False )
+
+        self.m_menubar1.Append( self.view, u"View" )
+
+        self.tools = wx.Menu()
+        self.m_menubar1.Append( self.tools, u"Tools" )
+
+        self.help = wx.Menu()
+        self.m_menuItem_about = wx.MenuItem( self.help, wx.ID_ANY, u"About", wx.EmptyString, wx.ITEM_NORMAL )
+        self.help.Append( self.m_menuItem_about )
+        self.m_menuItem_about.Enable( False )
+
+        self.m_menubar1.Append( self.help, u"Help" )
+
         self.SetMenuBar( self.m_menubar1 )
 
 
         self.Centre( wx.BOTH )
 
         # Connect Events
+        self.Bind( wx.EVT_CLOSE, self.BLR_LMGR_FRAMEOnClose )
+        self.m_panel_partselect_re1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_re1OnLeftUp )
         self.m_bmToggleBtn_blrlm_receiver.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_receiverOnToggleButton )
+        self.m_bitmap_blrlm_receiver.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_receiverOnLeftUp )
+        self.m_staticText_blrlm_receiver.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_receiverOnLeftUp )
+        self.m_bpButton_blrlm_receiver_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_receiver_resetOnButtonClick )
+        self.m_panel_partselect_st1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_st1OnLeftUp )
         self.m_bmToggleBtn_blrlm_stock.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_stockOnToggleButton )
+        self.m_bitmap_blrlm_stock.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_stockOnLeftUp )
+        self.m_staticText_blrlm_stock.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_stockOnLeftUp )
+        self.m_bpButton_blrlm_stock_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_stock_resetOnButtonClick )
+        self.m_panel_partselect_ba1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_ba1OnLeftUp )
         self.m_bmToggleBtn_blrlm_barrel.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_barrelOnToggleButton )
+        self.m_bitmap_blrlm_barrel.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_barrelOnLeftUp )
+        self.m_staticText_blrlm_barrel.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_barrelOnLeftUp )
+        self.m_bpButton_blrlm_barrel_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_barrel_resetOnButtonClick )
+        self.m_panel_partselect_sc1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_sc1OnLeftUp )
         self.m_bmToggleBtn_blrlm_scope.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_scopeOnToggleButton )
+        self.m_bitmap_blrlm_scope.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_scopeOnLeftUp )
+        self.m_staticText_blrlm_scope.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_scopeOnLeftUp )
+        self.m_bpButton_blrlm_scope_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_scope_resetOnButtonClick )
         self.m_bmToggleBtnLoadout1.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtnLoadout1OnToggleButton )
         self.m_bmToggleBtnLoadout2.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtnLoadout2OnToggleButton )
         self.m_bmToggleBtnLoadout3.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtnLoadout3OnToggleButton )
@@ -417,22 +504,79 @@ class BLR_LMGR_FRAME ( wx.Frame ):
         self.m_listCtrl_blrlm_selector.Bind( wx.EVT_LIST_ITEM_FOCUSED, self.m_listCtrl_blrlm_selectorOnListItemFocused )
         self.m_button_export_loadout.Bind( wx.EVT_BUTTON, self.m_button_export_loadoutOnButtonClick )
         self.m_scintilla1.Bind( wx.EVT_LEFT_DCLICK, self.m_scintilla1OnLeftDClick )
+        self.Bind( wx.EVT_MENU, self.m_menuItem_file_playernameOnMenuSelection, id = self.m_menuItem_file_playername.GetId() )
+        self.Bind( wx.EVT_MENU, self.m_menuItem_file_clearloadoutsOnMenuSelection, id = self.m_menuItem_file_clearloadouts.GetId() )
+        self.Bind( wx.EVT_MENU, self.m_menuItem_file_savesessionOnMenuSelection, id = self.m_menuItem_file_savesession.GetId() )
+        self.Bind( wx.EVT_MENU, self.m_menuItem_file_loadsessionOnMenuSelection, id = self.m_menuItem_file_loadsession.GetId() )
+        self.Bind( wx.EVT_MENU, self.m_menuItem_file_autosaveOnMenuSelection, id = self.m_menuItem_file_autosave.GetId() )
+        self.Bind( wx.EVT_MENU, self.m_menuItem_aboutOnMenuSelection, id = self.m_menuItem_about.GetId() )
 
     def __del__( self ):
         pass
 
 
     # Virtual event handlers, override them in your derived class
+    def BLR_LMGR_FRAMEOnClose( self, event ):
+        event.Skip()
+
+    def m_panel_partselect_re1OnLeftUp( self, event ):
+        event.Skip()
+
     def m_bmToggleBtn_blrlm_receiverOnToggleButton( self, event ):
+        event.Skip()
+
+    def m_bitmap_blrlm_receiverOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_staticText_blrlm_receiverOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bpButton_blrlm_receiver_resetOnButtonClick( self, event ):
+        event.Skip()
+
+    def m_panel_partselect_st1OnLeftUp( self, event ):
         event.Skip()
 
     def m_bmToggleBtn_blrlm_stockOnToggleButton( self, event ):
         event.Skip()
 
+    def m_bitmap_blrlm_stockOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_staticText_blrlm_stockOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bpButton_blrlm_stock_resetOnButtonClick( self, event ):
+        event.Skip()
+
+    def m_panel_partselect_ba1OnLeftUp( self, event ):
+        event.Skip()
+
     def m_bmToggleBtn_blrlm_barrelOnToggleButton( self, event ):
         event.Skip()
 
+    def m_bitmap_blrlm_barrelOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_staticText_blrlm_barrelOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bpButton_blrlm_barrel_resetOnButtonClick( self, event ):
+        event.Skip()
+
+    def m_panel_partselect_sc1OnLeftUp( self, event ):
+        event.Skip()
+
     def m_bmToggleBtn_blrlm_scopeOnToggleButton( self, event ):
+        event.Skip()
+
+    def m_bitmap_blrlm_scopeOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_staticText_blrlm_scopeOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bpButton_blrlm_scope_resetOnButtonClick( self, event ):
         event.Skip()
 
     def m_bmToggleBtnLoadout1OnToggleButton( self, event ):
@@ -472,6 +616,24 @@ class BLR_LMGR_FRAME ( wx.Frame ):
         event.Skip()
 
     def m_scintilla1OnLeftDClick( self, event ):
+        event.Skip()
+
+    def m_menuItem_file_playernameOnMenuSelection( self, event ):
+        event.Skip()
+
+    def m_menuItem_file_clearloadoutsOnMenuSelection( self, event ):
+        event.Skip()
+
+    def m_menuItem_file_savesessionOnMenuSelection( self, event ):
+        event.Skip()
+
+    def m_menuItem_file_loadsessionOnMenuSelection( self, event ):
+        event.Skip()
+
+    def m_menuItem_file_autosaveOnMenuSelection( self, event ):
+        event.Skip()
+
+    def m_menuItem_aboutOnMenuSelection( self, event ):
         event.Skip()
 
 

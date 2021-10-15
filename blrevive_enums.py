@@ -18,3 +18,13 @@ class UIGear(Enum):
     m_bmToggleBtnSecondary2 = 3
     m_bmToggleBtnPrimary3 = 4
     m_bmToggleBtnSecondary3 = 5
+
+
+class UIAttachment(Enum):
+    RECEIVER = 0
+    MUZZLE = 1
+    STOCK = 2
+    BARREL = 3
+    MAGAZINE = 4
+    SCOPE = 5
+    GRIP = 6
