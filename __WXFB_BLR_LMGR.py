@@ -89,41 +89,79 @@ class BLR_LMGR_FRAME ( wx.Frame ):
         bSizerPSRE1.Fit( self.m_panel_partselect_re1 )
         bSizerPartSelect.Add( self.m_panel_partselect_re1, 0, wx.EXPAND |wx.ALL, 4 )
 
-        self.m_panel_partselect_st1 = wx.Panel( self.m_panel_partselect, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_SIMPLE )
-        self.m_panel_partselect_st1.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+        self.m_panel_partselect_mz1 = wx.Panel( self.m_panel_partselect, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_SIMPLE )
+        self.m_panel_partselect_mz1.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
 
-        bSizerPSST1 = wx.BoxSizer( wx.HORIZONTAL )
+        bSizerPSMZ1 = wx.BoxSizer( wx.HORIZONTAL )
 
-        self.m_bmToggleBtn_blrlm_stock = wx.BitmapToggleButton( self.m_panel_partselect_st1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BORDER_NONE )
+        self.m_bmToggleBtn_blrlm_muzzle = wx.BitmapToggleButton( self.m_panel_partselect_mz1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BORDER_NONE )
 
-        self.m_bmToggleBtn_blrlm_stock.SetBitmap( wx.NullBitmap )
-        self.m_bmToggleBtn_blrlm_stock.SetBackgroundColour( wx.Colour( 48, 48, 48 ) )
+        self.m_bmToggleBtn_blrlm_muzzle.SetBitmap( wx.NullBitmap )
+        self.m_bmToggleBtn_blrlm_muzzle.SetBackgroundColour( wx.Colour( 48, 48, 48 ) )
 
-        bSizerPSST1.Add( self.m_bmToggleBtn_blrlm_stock, 0, wx.ALL, 0 )
+        bSizerPSMZ1.Add( self.m_bmToggleBtn_blrlm_muzzle, 0, wx.ALL, 0 )
 
-        self.m_bitmap_blrlm_stock = wx.StaticBitmap( self.m_panel_partselect_st1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.m_bitmap_blrlm_stock.SetMinSize( wx.Size( 64,32 ) )
-        self.m_bitmap_blrlm_stock.SetMaxSize( wx.Size( 64,32 ) )
+        self.m_bitmap_blrlm_muzzle = wx.StaticBitmap( self.m_panel_partselect_mz1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_bitmap_blrlm_muzzle.SetMinSize( wx.Size( 64,32 ) )
+        self.m_bitmap_blrlm_muzzle.SetMaxSize( wx.Size( 64,32 ) )
 
-        bSizerPSST1.Add( self.m_bitmap_blrlm_stock, 0, wx.LEFT|wx.RIGHT, 8 )
+        bSizerPSMZ1.Add( self.m_bitmap_blrlm_muzzle, 0, wx.LEFT|wx.RIGHT, 8 )
 
-        self.m_staticText_blrlm_stock = wx.StaticText( self.m_panel_partselect_st1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.m_staticText_blrlm_stock.Wrap( -1 )
+        self.m_staticText_blrlm_muzzle = wx.StaticText( self.m_panel_partselect_mz1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_staticText_blrlm_muzzle.Wrap( -1 )
 
-        self.m_staticText_blrlm_stock.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHTTEXT ) )
+        self.m_staticText_blrlm_muzzle.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHTTEXT ) )
 
-        bSizerPSST1.Add( self.m_staticText_blrlm_stock, 1, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 0 )
+        bSizerPSMZ1.Add( self.m_staticText_blrlm_muzzle, 1, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 0 )
 
-        self.m_bpButton_blrlm_stock_reset = wx.BitmapButton( self.m_panel_partselect_st1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BU_AUTODRAW|0|wx.BORDER_NONE )
-        self.m_bpButton_blrlm_stock_reset.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+        self.m_bpButton_blrlm_muzzle_reset = wx.BitmapButton( self.m_panel_partselect_mz1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BU_AUTODRAW|0|wx.BORDER_NONE )
 
-        bSizerPSST1.Add( self.m_bpButton_blrlm_stock_reset, 0, wx.ALL, 0 )
+        self.m_bpButton_blrlm_muzzle_reset.SetBitmapPosition( wx.BOTTOM )
+        self.m_bpButton_blrlm_muzzle_reset.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSMZ1.Add( self.m_bpButton_blrlm_muzzle_reset, 0, wx.ALL, 0 )
 
 
-        self.m_panel_partselect_st1.SetSizer( bSizerPSST1 )
-        self.m_panel_partselect_st1.Layout()
-        bSizerPSST1.Fit( self.m_panel_partselect_st1 )
-        bSizerPartSelect.Add( self.m_panel_partselect_st1, 0, wx.EXPAND |wx.ALL, 4 )
+        self.m_panel_partselect_mz1.SetSizer( bSizerPSMZ1 )
+        self.m_panel_partselect_mz1.Layout()
+        bSizerPSMZ1.Fit( self.m_panel_partselect_mz1 )
+        bSizerPartSelect.Add( self.m_panel_partselect_mz1, 0, wx.EXPAND |wx.ALL, 4 )
+
+        self.m_panel_partselect_gp1 = wx.Panel( self.m_panel_partselect, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_SIMPLE )
+        self.m_panel_partselect_gp1.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSGP1 = wx.BoxSizer( wx.HORIZONTAL )
+
+        self.m_bmToggleBtn_blrlm_grip = wx.BitmapToggleButton( self.m_panel_partselect_gp1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BORDER_NONE )
+
+        self.m_bmToggleBtn_blrlm_grip.SetBitmap( wx.NullBitmap )
+        self.m_bmToggleBtn_blrlm_grip.SetBackgroundColour( wx.Colour( 48, 48, 48 ) )
+
+        bSizerPSGP1.Add( self.m_bmToggleBtn_blrlm_grip, 0, wx.ALL, 0 )
+
+        self.m_bitmap_blrlm_grip = wx.StaticBitmap( self.m_panel_partselect_gp1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_bitmap_blrlm_grip.SetMinSize( wx.Size( 64,32 ) )
+        self.m_bitmap_blrlm_grip.SetMaxSize( wx.Size( 64,32 ) )
+
+        bSizerPSGP1.Add( self.m_bitmap_blrlm_grip, 0, wx.LEFT|wx.RIGHT, 8 )
+
+        self.m_staticText_blrlm_grip = wx.StaticText( self.m_panel_partselect_gp1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_staticText_blrlm_grip.Wrap( -1 )
+
+        self.m_staticText_blrlm_grip.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHTTEXT ) )
+
+        bSizerPSGP1.Add( self.m_staticText_blrlm_grip, 1, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 0 )
+
+        self.m_bpButton_blrlm_grip_reset = wx.BitmapButton( self.m_panel_partselect_gp1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BU_AUTODRAW|0|wx.BORDER_NONE )
+        self.m_bpButton_blrlm_grip_reset.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSGP1.Add( self.m_bpButton_blrlm_grip_reset, 0, wx.ALL, 0 )
+
+
+        self.m_panel_partselect_gp1.SetSizer( bSizerPSGP1 )
+        self.m_panel_partselect_gp1.Layout()
+        bSizerPSGP1.Fit( self.m_panel_partselect_gp1 )
+        bSizerPartSelect.Add( self.m_panel_partselect_gp1, 0, wx.EXPAND |wx.ALL, 4 )
 
         self.m_panel_partselect_ba1 = wx.Panel( self.m_panel_partselect, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_SIMPLE )
         self.m_panel_partselect_ba1.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
@@ -161,6 +199,42 @@ class BLR_LMGR_FRAME ( wx.Frame ):
         bSizerPSBA1.Fit( self.m_panel_partselect_ba1 )
         bSizerPartSelect.Add( self.m_panel_partselect_ba1, 0, wx.EXPAND |wx.ALL, 4 )
 
+        self.m_panel_partselect_mg1 = wx.Panel( self.m_panel_partselect, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_SIMPLE )
+        self.m_panel_partselect_mg1.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSMG1 = wx.BoxSizer( wx.HORIZONTAL )
+
+        self.m_bmToggleBtn_blrlm_magazine = wx.BitmapToggleButton( self.m_panel_partselect_mg1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BORDER_NONE )
+
+        self.m_bmToggleBtn_blrlm_magazine.SetBitmap( wx.NullBitmap )
+        self.m_bmToggleBtn_blrlm_magazine.SetBackgroundColour( wx.Colour( 48, 48, 48 ) )
+
+        bSizerPSMG1.Add( self.m_bmToggleBtn_blrlm_magazine, 0, wx.ALL, 0 )
+
+        self.m_bitmap_blrlm_magazine = wx.StaticBitmap( self.m_panel_partselect_mg1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_bitmap_blrlm_magazine.SetMinSize( wx.Size( 64,32 ) )
+        self.m_bitmap_blrlm_magazine.SetMaxSize( wx.Size( 64,32 ) )
+
+        bSizerPSMG1.Add( self.m_bitmap_blrlm_magazine, 0, wx.LEFT|wx.RIGHT, 8 )
+
+        self.m_staticText_blrlm_magazine = wx.StaticText( self.m_panel_partselect_mg1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_staticText_blrlm_magazine.Wrap( -1 )
+
+        self.m_staticText_blrlm_magazine.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHTTEXT ) )
+
+        bSizerPSMG1.Add( self.m_staticText_blrlm_magazine, 1, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 0 )
+
+        self.m_bpButton_blrlm_magazine_reset = wx.BitmapButton( self.m_panel_partselect_mg1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BU_AUTODRAW|0|wx.BORDER_NONE )
+        self.m_bpButton_blrlm_magazine_reset.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSMG1.Add( self.m_bpButton_blrlm_magazine_reset, 0, wx.ALL, 0 )
+
+
+        self.m_panel_partselect_mg1.SetSizer( bSizerPSMG1 )
+        self.m_panel_partselect_mg1.Layout()
+        bSizerPSMG1.Fit( self.m_panel_partselect_mg1 )
+        bSizerPartSelect.Add( self.m_panel_partselect_mg1, 0, wx.EXPAND |wx.ALL, 4 )
+
         self.m_panel_partselect_sc1 = wx.Panel( self.m_panel_partselect, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_SIMPLE )
         self.m_panel_partselect_sc1.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
 
@@ -196,6 +270,114 @@ class BLR_LMGR_FRAME ( wx.Frame ):
         self.m_panel_partselect_sc1.Layout()
         bSizerPSSC1.Fit( self.m_panel_partselect_sc1 )
         bSizerPartSelect.Add( self.m_panel_partselect_sc1, 0, wx.EXPAND |wx.ALL, 4 )
+
+        self.m_panel_partselect_st1 = wx.Panel( self.m_panel_partselect, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_SIMPLE )
+        self.m_panel_partselect_st1.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSST1 = wx.BoxSizer( wx.HORIZONTAL )
+
+        self.m_bmToggleBtn_blrlm_stock = wx.BitmapToggleButton( self.m_panel_partselect_st1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BORDER_NONE )
+
+        self.m_bmToggleBtn_blrlm_stock.SetBitmap( wx.NullBitmap )
+        self.m_bmToggleBtn_blrlm_stock.SetBackgroundColour( wx.Colour( 48, 48, 48 ) )
+
+        bSizerPSST1.Add( self.m_bmToggleBtn_blrlm_stock, 0, wx.ALL, 0 )
+
+        self.m_bitmap_blrlm_stock = wx.StaticBitmap( self.m_panel_partselect_st1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_bitmap_blrlm_stock.SetMinSize( wx.Size( 64,32 ) )
+        self.m_bitmap_blrlm_stock.SetMaxSize( wx.Size( 64,32 ) )
+
+        bSizerPSST1.Add( self.m_bitmap_blrlm_stock, 0, wx.LEFT|wx.RIGHT, 8 )
+
+        self.m_staticText_blrlm_stock = wx.StaticText( self.m_panel_partselect_st1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_staticText_blrlm_stock.Wrap( -1 )
+
+        self.m_staticText_blrlm_stock.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHTTEXT ) )
+
+        bSizerPSST1.Add( self.m_staticText_blrlm_stock, 1, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 0 )
+
+        self.m_bpButton_blrlm_stock_reset = wx.BitmapButton( self.m_panel_partselect_st1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BU_AUTODRAW|0|wx.BORDER_NONE )
+        self.m_bpButton_blrlm_stock_reset.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSST1.Add( self.m_bpButton_blrlm_stock_reset, 0, wx.ALL, 0 )
+
+
+        self.m_panel_partselect_st1.SetSizer( bSizerPSST1 )
+        self.m_panel_partselect_st1.Layout()
+        bSizerPSST1.Fit( self.m_panel_partselect_st1 )
+        bSizerPartSelect.Add( self.m_panel_partselect_st1, 0, wx.EXPAND |wx.ALL, 4 )
+
+        self.m_panel_partselect_tg1 = wx.Panel( self.m_panel_partselect, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_SIMPLE )
+        self.m_panel_partselect_tg1.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSTG1 = wx.BoxSizer( wx.HORIZONTAL )
+
+        self.m_bmToggleBtn_blrlm_tag = wx.BitmapToggleButton( self.m_panel_partselect_tg1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BORDER_NONE )
+
+        self.m_bmToggleBtn_blrlm_tag.SetBitmap( wx.NullBitmap )
+        self.m_bmToggleBtn_blrlm_tag.SetBackgroundColour( wx.Colour( 48, 48, 48 ) )
+
+        bSizerPSTG1.Add( self.m_bmToggleBtn_blrlm_tag, 0, wx.ALL, 0 )
+
+        self.m_bitmap_blrlm_tag = wx.StaticBitmap( self.m_panel_partselect_tg1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_bitmap_blrlm_tag.SetMinSize( wx.Size( 64,32 ) )
+        self.m_bitmap_blrlm_tag.SetMaxSize( wx.Size( 64,32 ) )
+
+        bSizerPSTG1.Add( self.m_bitmap_blrlm_tag, 0, wx.LEFT|wx.RIGHT, 8 )
+
+        self.m_staticText_blrlm_tag = wx.StaticText( self.m_panel_partselect_tg1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_staticText_blrlm_tag.Wrap( -1 )
+
+        self.m_staticText_blrlm_tag.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHTTEXT ) )
+
+        bSizerPSTG1.Add( self.m_staticText_blrlm_tag, 1, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 0 )
+
+        self.m_bpButton_blrlm_tag_reset = wx.BitmapButton( self.m_panel_partselect_tg1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BU_AUTODRAW|0|wx.BORDER_NONE )
+        self.m_bpButton_blrlm_tag_reset.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSTG1.Add( self.m_bpButton_blrlm_tag_reset, 0, wx.ALL, 0 )
+
+
+        self.m_panel_partselect_tg1.SetSizer( bSizerPSTG1 )
+        self.m_panel_partselect_tg1.Layout()
+        bSizerPSTG1.Fit( self.m_panel_partselect_tg1 )
+        bSizerPartSelect.Add( self.m_panel_partselect_tg1, 0, wx.EXPAND |wx.ALL, 4 )
+
+        self.m_panel_partselect_cm1 = wx.Panel( self.m_panel_partselect, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_SIMPLE )
+        self.m_panel_partselect_cm1.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSCM1 = wx.BoxSizer( wx.HORIZONTAL )
+
+        self.m_bmToggleBtn_blrlm_camo = wx.BitmapToggleButton( self.m_panel_partselect_cm1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BORDER_NONE )
+
+        self.m_bmToggleBtn_blrlm_camo.SetBitmap( wx.NullBitmap )
+        self.m_bmToggleBtn_blrlm_camo.SetBackgroundColour( wx.Colour( 48, 48, 48 ) )
+
+        bSizerPSCM1.Add( self.m_bmToggleBtn_blrlm_camo, 0, wx.ALL, 0 )
+
+        self.m_bitmap_blrlm_camo = wx.StaticBitmap( self.m_panel_partselect_cm1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_bitmap_blrlm_camo.SetMinSize( wx.Size( 64,32 ) )
+        self.m_bitmap_blrlm_camo.SetMaxSize( wx.Size( 64,32 ) )
+
+        bSizerPSCM1.Add( self.m_bitmap_blrlm_camo, 0, wx.LEFT|wx.RIGHT, 8 )
+
+        self.m_staticText_blrlm_camo = wx.StaticText( self.m_panel_partselect_cm1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_staticText_blrlm_camo.Wrap( -1 )
+
+        self.m_staticText_blrlm_camo.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHTTEXT ) )
+
+        bSizerPSCM1.Add( self.m_staticText_blrlm_camo, 1, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 0 )
+
+        self.m_bpButton_blrlm_camo_reset = wx.BitmapButton( self.m_panel_partselect_cm1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 32,32 ), wx.BU_AUTODRAW|0|wx.BORDER_NONE )
+        self.m_bpButton_blrlm_camo_reset.SetBackgroundColour( wx.Colour( 0, 64, 128 ) )
+
+        bSizerPSCM1.Add( self.m_bpButton_blrlm_camo_reset, 0, wx.ALL, 0 )
+
+
+        self.m_panel_partselect_cm1.SetSizer( bSizerPSCM1 )
+        self.m_panel_partselect_cm1.Layout()
+        bSizerPSCM1.Fit( self.m_panel_partselect_cm1 )
+        bSizerPartSelect.Add( self.m_panel_partselect_cm1, 0, wx.EXPAND |wx.ALL, 4 )
 
 
         bSizer19.Add( bSizerPartSelect, 0, wx.EXPAND, 0 )
@@ -476,21 +658,46 @@ class BLR_LMGR_FRAME ( wx.Frame ):
         self.m_bitmap_blrlm_receiver.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_receiverOnLeftUp )
         self.m_staticText_blrlm_receiver.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_receiverOnLeftUp )
         self.m_bpButton_blrlm_receiver_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_receiver_resetOnButtonClick )
-        self.m_panel_partselect_st1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_st1OnLeftUp )
-        self.m_bmToggleBtn_blrlm_stock.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_stockOnToggleButton )
-        self.m_bitmap_blrlm_stock.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_stockOnLeftUp )
-        self.m_staticText_blrlm_stock.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_stockOnLeftUp )
-        self.m_bpButton_blrlm_stock_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_stock_resetOnButtonClick )
+        self.m_panel_partselect_mz1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_mz1OnLeftUp )
+        self.m_bmToggleBtn_blrlm_muzzle.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_muzzleOnToggleButton )
+        self.m_bitmap_blrlm_muzzle.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_muzzleOnLeftUp )
+        self.m_staticText_blrlm_muzzle.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_muzzleOnLeftUp )
+        self.m_bpButton_blrlm_muzzle_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_muzzle_resetOnButtonClick )
+        self.m_panel_partselect_gp1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_gp1OnLeftUp )
+        self.m_bmToggleBtn_blrlm_grip.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_gripOnToggleButton )
+        self.m_bitmap_blrlm_grip.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_gripOnLeftUp )
+        self.m_staticText_blrlm_grip.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_gripOnLeftUp )
+        self.m_bpButton_blrlm_grip_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_grip_resetOnButtonClick )
         self.m_panel_partselect_ba1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_ba1OnLeftUp )
         self.m_bmToggleBtn_blrlm_barrel.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_barrelOnToggleButton )
         self.m_bitmap_blrlm_barrel.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_barrelOnLeftUp )
         self.m_staticText_blrlm_barrel.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_barrelOnLeftUp )
         self.m_bpButton_blrlm_barrel_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_barrel_resetOnButtonClick )
+        self.m_panel_partselect_mg1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_mg1OnLeftUp )
+        self.m_bmToggleBtn_blrlm_magazine.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_magazineOnToggleButton )
+        self.m_bitmap_blrlm_magazine.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_magazineOnLeftUp )
+        self.m_staticText_blrlm_magazine.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_magazineOnLeftUp )
+        self.m_bpButton_blrlm_magazine_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_magazine_resetOnButtonClick )
         self.m_panel_partselect_sc1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_sc1OnLeftUp )
         self.m_bmToggleBtn_blrlm_scope.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_scopeOnToggleButton )
         self.m_bitmap_blrlm_scope.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_scopeOnLeftUp )
         self.m_staticText_blrlm_scope.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_scopeOnLeftUp )
         self.m_bpButton_blrlm_scope_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_scope_resetOnButtonClick )
+        self.m_panel_partselect_st1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_st1OnLeftUp )
+        self.m_bmToggleBtn_blrlm_stock.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_stockOnToggleButton )
+        self.m_bitmap_blrlm_stock.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_stockOnLeftUp )
+        self.m_staticText_blrlm_stock.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_stockOnLeftUp )
+        self.m_bpButton_blrlm_stock_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_stock_resetOnButtonClick )
+        self.m_panel_partselect_tg1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_tg1OnLeftUp )
+        self.m_bmToggleBtn_blrlm_tag.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_tagOnToggleButton )
+        self.m_bitmap_blrlm_tag.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_tagOnLeftUp )
+        self.m_staticText_blrlm_tag.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_tagOnLeftUp )
+        self.m_bpButton_blrlm_tag_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_tag_resetOnButtonClick )
+        self.m_panel_partselect_cm1.Bind( wx.EVT_LEFT_UP, self.m_panel_partselect_cm1OnLeftUp )
+        self.m_bmToggleBtn_blrlm_camo.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtn_blrlm_camoOnToggleButton )
+        self.m_bitmap_blrlm_camo.Bind( wx.EVT_LEFT_UP, self.m_bitmap_blrlm_camoOnLeftUp )
+        self.m_staticText_blrlm_camo.Bind( wx.EVT_LEFT_UP, self.m_staticText_blrlm_camoOnLeftUp )
+        self.m_bpButton_blrlm_camo_reset.Bind( wx.EVT_BUTTON, self.m_bpButton_blrlm_camo_resetOnButtonClick )
         self.m_bmToggleBtnLoadout1.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtnLoadout1OnToggleButton )
         self.m_bmToggleBtnLoadout2.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtnLoadout2OnToggleButton )
         self.m_bmToggleBtnLoadout3.Bind( wx.EVT_TOGGLEBUTTON, self.m_bmToggleBtnLoadout3OnToggleButton )
@@ -534,19 +741,34 @@ class BLR_LMGR_FRAME ( wx.Frame ):
     def m_bpButton_blrlm_receiver_resetOnButtonClick( self, event ):
         event.Skip()
 
-    def m_panel_partselect_st1OnLeftUp( self, event ):
+    def m_panel_partselect_mz1OnLeftUp( self, event ):
         event.Skip()
 
-    def m_bmToggleBtn_blrlm_stockOnToggleButton( self, event ):
+    def m_bmToggleBtn_blrlm_muzzleOnToggleButton( self, event ):
         event.Skip()
 
-    def m_bitmap_blrlm_stockOnLeftUp( self, event ):
+    def m_bitmap_blrlm_muzzleOnLeftUp( self, event ):
         event.Skip()
 
-    def m_staticText_blrlm_stockOnLeftUp( self, event ):
+    def m_staticText_blrlm_muzzleOnLeftUp( self, event ):
         event.Skip()
 
-    def m_bpButton_blrlm_stock_resetOnButtonClick( self, event ):
+    def m_bpButton_blrlm_muzzle_resetOnButtonClick( self, event ):
+        event.Skip()
+
+    def m_panel_partselect_gp1OnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bmToggleBtn_blrlm_gripOnToggleButton( self, event ):
+        event.Skip()
+
+    def m_bitmap_blrlm_gripOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_staticText_blrlm_gripOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bpButton_blrlm_grip_resetOnButtonClick( self, event ):
         event.Skip()
 
     def m_panel_partselect_ba1OnLeftUp( self, event ):
@@ -564,6 +786,21 @@ class BLR_LMGR_FRAME ( wx.Frame ):
     def m_bpButton_blrlm_barrel_resetOnButtonClick( self, event ):
         event.Skip()
 
+    def m_panel_partselect_mg1OnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bmToggleBtn_blrlm_magazineOnToggleButton( self, event ):
+        event.Skip()
+
+    def m_bitmap_blrlm_magazineOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_staticText_blrlm_magazineOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bpButton_blrlm_magazine_resetOnButtonClick( self, event ):
+        event.Skip()
+
     def m_panel_partselect_sc1OnLeftUp( self, event ):
         event.Skip()
 
@@ -577,6 +814,51 @@ class BLR_LMGR_FRAME ( wx.Frame ):
         event.Skip()
 
     def m_bpButton_blrlm_scope_resetOnButtonClick( self, event ):
+        event.Skip()
+
+    def m_panel_partselect_st1OnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bmToggleBtn_blrlm_stockOnToggleButton( self, event ):
+        event.Skip()
+
+    def m_bitmap_blrlm_stockOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_staticText_blrlm_stockOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bpButton_blrlm_stock_resetOnButtonClick( self, event ):
+        event.Skip()
+
+    def m_panel_partselect_tg1OnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bmToggleBtn_blrlm_tagOnToggleButton( self, event ):
+        event.Skip()
+
+    def m_bitmap_blrlm_tagOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_staticText_blrlm_tagOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bpButton_blrlm_tag_resetOnButtonClick( self, event ):
+        event.Skip()
+
+    def m_panel_partselect_cm1OnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bmToggleBtn_blrlm_camoOnToggleButton( self, event ):
+        event.Skip()
+
+    def m_bitmap_blrlm_camoOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_staticText_blrlm_camoOnLeftUp( self, event ):
+        event.Skip()
+
+    def m_bpButton_blrlm_camo_resetOnButtonClick( self, event ):
         event.Skip()
 
     def m_bmToggleBtnLoadout1OnToggleButton( self, event ):

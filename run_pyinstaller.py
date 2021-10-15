@@ -24,8 +24,9 @@ def make_specfile():
     options = [
         '--onefile',
         '--windowed',
-        '--add-data=wso.py;.',
+        '--hidden-import=wso.py;.',
         '--add-data=helpers_pyinstaller.py;.',
+        '--add-data=ue3_config_reader.py;.',
         '--add-data=__WXFB_BLR_LMGR.py;.',
         '--add-data=blrevive_gear.py;.',
         '--add-data=bitmap_panel.py;.',
@@ -113,7 +114,7 @@ def patch_specfile(filename='blrevive_loadout_manager.spec'):
                 # return line  # comment out to modify
                 # Implement modifications here
                 pattern = '= *[^,]*'
-                replace = '=(104, 190)'
+                replace = '=(104, 190)'  # 62
                 res_str = re.sub(pattern, replace, line)
                 return res_str
 

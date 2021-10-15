@@ -140,38 +140,144 @@ class BLReviveScope(BLReviveGear):
 # --------------------------------------------------------------------------- #
 
 
+class BLReviveMuzzle(BLReviveGear):
+    def __init__(self, config_name, friendly_name, image_icon_path=None, small_icon_path=None, gear_types=[]):
+        super().__init__(config_name, friendly_name, image_icon_path, small_icon_path, gear_types)
+
+    def EmptyGear():
+        return BLReviveMuzzle(0, '')
+
+
+# --------------------------------------------------------------------------- #
+
+# --------------------------------------------------------------------------- #
+
+
+class BLReviveMagazine(BLReviveGear):
+    def __init__(self, config_name, friendly_name, image_icon_path=None, small_icon_path=None, gear_types=[]):
+        super().__init__(config_name, friendly_name, image_icon_path, small_icon_path, gear_types)
+
+    def EmptyGear():
+        return BLReviveMagazine(-1, '')
+
+
+# --------------------------------------------------------------------------- #
+
+# --------------------------------------------------------------------------- #
+
+
+class BLReviveGrip(BLReviveGear):
+    def __init__(self, config_name, friendly_name, image_icon_path=None, small_icon_path=None, gear_types=[]):
+        super().__init__(config_name, friendly_name, image_icon_path, small_icon_path, gear_types)
+
+    def EmptyGear():
+        return BLReviveGrip(None, '')
+
+
+# --------------------------------------------------------------------------- #
+
+# --------------------------------------------------------------------------- #
+
+
+class BLReviveTag(BLReviveGear):
+    def __init__(self, config_name, friendly_name, image_icon_path=None, small_icon_path=None, gear_types=[]):
+        super().__init__(config_name, friendly_name, image_icon_path, small_icon_path, gear_types)
+
+    def EmptyGear():
+        return BLReviveTag(None, '')
+
+
+# --------------------------------------------------------------------------- #
+
+# --------------------------------------------------------------------------- #
+
+
+class BLReviveCamo(BLReviveGear):
+    def __init__(self, config_name, friendly_name, image_icon_path=None, small_icon_path=None, gear_types=[]):
+        super().__init__(config_name, friendly_name, image_icon_path, small_icon_path, gear_types)
+
+    def EmptyGear():
+        return BLReviveCamo(None, '')
+
+
+# --------------------------------------------------------------------------- #
+
+# --------------------------------------------------------------------------- #
+
+
 class BLReviveWeapon:
-    def __init__(self, name, receiver, stock, barrel, scope):
+    def __init__(self, name, receiver, stock, barrel, scope, muzzle, magazine, grip, tag, camo):
         self.name = name
         self.receiver = receiver
         self.stock = stock
         self.barrel = barrel
         self.scope = scope
+        self.muzzle = muzzle
+        self.magazine = magazine
+        self.grip = grip
+        self.tag = tag
+        self.camo = camo
 
 # --------------------------------------------------------------------------- #
 
     def EmptyWeapon():
-        return BLReviveWeapon(None, BLReviveReceiver.EmptyGear(), BLReviveStock.EmptyGear(), BLReviveBarrel.EmptyGear(), BLReviveScope.EmptyGear())
+        return BLReviveWeapon(None,
+                              BLReviveReceiver.EmptyGear(),
+                              BLReviveStock.EmptyGear(),
+                              BLReviveBarrel.EmptyGear(),
+                              BLReviveScope.EmptyGear(),
+                              BLReviveMuzzle.EmptyGear(),
+                              BLReviveMagazine.EmptyGear(),
+                              BLReviveGrip.EmptyGear(),
+                              BLReviveTag.EmptyGear(),
+                              BLReviveCamo.EmptyGear())
 
 # --------------------------------------------------------------------------- #
 
     def ToMagiCow(self):
         weapon = {}
+        # TODO: Change to a more permanent solution than using config name as the index
         weapon['Receiver'] = self.receiver.friendly_name
+        weapon['Muzzle'] = int(self.muzzle.config_name)
         weapon['Stock'] = self.stock.friendly_name
         weapon['Barrel'] = self.barrel.friendly_name
+        weapon['Magazine'] = int(self.magazine.config_name)
         weapon['Scope'] = self.scope.friendly_name
+        weapon['Grip'] = self.grip.friendly_name
         return weapon
 
     def LoadWeapon(weapon_dict):
         if 'name' not in weapon_dict:
             return BLReviveWeapon.EmptyWeapon()
+        re = BLReviveReceiver(*weapon_dict['receiver'].values())
+        st = BLReviveStock(*weapon_dict['stock'].values())
+        ba = BLReviveBarrel(*weapon_dict['barrel'].values())
+        sc = BLReviveScope(*weapon_dict['scope'].values())
+
+        if 'muzzle' in weapon_dict:
+            mz = BLReviveMuzzle(*weapon_dict['muzzle'].values())
+            mg = BLReviveMagazine(*weapon_dict['magazine'].values())
+            gp = BLReviveGrip(*weapon_dict['grip'].values())
+            tg = BLReviveTag(*weapon_dict['tag'].values())
+            cm = BLReviveCamo(*weapon_dict['camo'].values())
+        else:
+            mz = BLReviveMuzzle.EmptyGear()
+            mg = BLReviveMagazine.EmptyGear()
+            gp = BLReviveGrip.EmptyGear()
+            tg = BLReviveTag.EmptyGear()
+            cm = BLReviveCamo.EmptyGear()
+
         return BLReviveWeapon(
             weapon_dict['name'],
-            BLReviveReceiver(*weapon_dict['receiver'].values()),
-            BLReviveStock(*weapon_dict['stock'].values()),
-            BLReviveBarrel(*weapon_dict['barrel'].values()),
-            BLReviveScope(*weapon_dict['scope'].values())
+            re,
+            st,
+            ba,
+            sc,
+            mz,
+            mg,
+            gp,
+            tg,
+            cm
         )
 
     def to_dict(self):
@@ -180,7 +286,12 @@ class BLReviveWeapon:
             'receiver': self.receiver.to_dict(),
             'stock': self.stock.to_dict(),
             'barrel': self.barrel.to_dict(),
-            'scope': self.scope.to_dict()
+            'scope': self.scope.to_dict(),
+            'muzzle': self.muzzle.to_dict(),
+            'magazine': self.magazine.to_dict(),
+            'grip': self.grip.to_dict(),
+            'tag': self.tag.to_dict(),
+            'camo': self.camo.to_dict()
         }
 
 

@@ -16,7 +16,7 @@ from blrevive_enums import Gear, UIGear, UIAttachment
 import blrevive_toolkit as blrtk
 from __WXFB_BLR_LMGR import BLR_LMGR_FRAME
 from helpers_pyinstaller import resource_path
-from blrevive_gear import BLReviveLoadout, BLReviveWeapon, BLReviveReceiver, BLReviveStock, BLReviveBarrel, BLReviveScope
+from blrevive_gear import BLReviveLoadout, BLReviveWeapon, BLReviveReceiver, BLReviveStock, BLReviveBarrel, BLReviveScope, BLReviveMuzzle, BLReviveMagazine, BLReviveGrip, BLReviveTag, BLReviveCamo
 
 
 try:
@@ -72,13 +72,46 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.scope_columns = self.receiver_columns.copy()
         self.scope_columns[0] = 'Scope'
 
+        self.muzzle_columns = self.receiver_columns.copy()
+        self.muzzle_columns[0] = 'Muzzle'
+
+        self.magazine_columns = self.receiver_columns.copy()
+        self.magazine_columns[0] = 'Magazine'
+
+        self.grip_columns = self.receiver_columns.copy()
+        self.grip_columns[0] = 'Grip'
+
         # Lazy mode for now to get exporting to MagiCow functional
         self.temp_receivers = blrtk.get_receivers()
+
         self.temp_stocks = blrtk.get_stocks()
+
         self.temp_barrels = blrtk.get_barrels()
+
         self.temp_scopes = blrtk.get_scopes()
 
+        self.temp_muzzles = blrtk.get_muzzles()
+        for item in blrtk.get_grips():
+            self.temp_muzzles.append(item)
+        self.temp_grips = blrtk.get_grips()
+
+        self.temp_magazines = blrtk.get_magazines()
+
+        self.muzzle_idx = 0
+        self.magazine_idx = -1
+
         self.df_primary = blrtk.build_receivers_dataframe()
+
+# --------------------------------------------------------------------------- #
+
+# --------------------------------------------------------------------------- #
+
+        # Hide Unused Panels
+        self.m_panel_partselect_tg1.Hide()
+        self.m_panel_partselect_cm1.Hide()
+
+        # self.m_panel_partselect.Freeze()
+        # self.m_panel_partselect.Thaw()
 
 # --------------------------------------------------------------------------- #
 
@@ -89,37 +122,80 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.m_scintilla1.SetLexer(wx.stc.STC_LEX_CONF)
         # self.m_scintilla1.SetVScrollBar() SetMouseWheelCaptures SetMouseDownCaptures
 
+# --------------------------------------------------------------------------- #
+
         # List Control
         headerattr = wx.ItemAttr()
         headerattr.SetFont(self.font_blr_UI_14)
         self.m_listCtrl_blrlm_selector.SetHeaderAttr(headerattr)
         self.m_bitmap_blrlm_preview.SetBackgroundColour(wx.Colour(0, 64, 128))
 
+# --------------------------------------------------------------------------- #
+
         # Bitmap Panels
         self.m_panel_blrlm_preview.SetPanelBitmapPositionToParent()
         self.m_panel_partselect.SetPanelBitmapPositionToParent()
         self.m_panel11.SetPanelBitmapPositionToParent()
 
+# --------------------------------------------------------------------------- #
+
         # Toggle Buttons
+
+        # RECEIVER
         image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/reciever.TGA')).Scale(32, 32)
         self.m_bmToggleBtn_blrlm_receiver.SetBitmap(wx.Image.ConvertToBitmap(image))
         image.Replace(255, 255, 255, 255, 165, 0)
         self.m_bmToggleBtn_blrlm_receiver.SetBitmapPressed(wx.Image.ConvertToBitmap(image))
 
+        # STOCK
         image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Stock.TGA')).Scale(32, 32)
         self.m_bmToggleBtn_blrlm_stock.SetBitmap(wx.Image.ConvertToBitmap(image))
         image.Replace(255, 255, 255, 255, 165, 0)
         self.m_bmToggleBtn_blrlm_stock.SetBitmapPressed(wx.Image.ConvertToBitmap(image))
 
+        # BARREL
         image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Barrel.TGA')).Scale(32, 32)
         self.m_bmToggleBtn_blrlm_barrel.SetBitmap(wx.Image.ConvertToBitmap(image))
         image.Replace(255, 255, 255, 255, 165, 0)
         self.m_bmToggleBtn_blrlm_barrel.SetBitmapPressed(wx.Image.ConvertToBitmap(image))
 
+        # SCOPE
         image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Scope.TGA')).Scale(32, 32)
         self.m_bmToggleBtn_blrlm_scope.SetBitmap(wx.Image.ConvertToBitmap(image))
         image.Replace(255, 255, 255, 255, 165, 0)
         self.m_bmToggleBtn_blrlm_scope.SetBitmapPressed(wx.Image.ConvertToBitmap(image))
+
+        # MUZZLE
+        image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Muzzle.TGA')).Scale(32, 32)
+        self.m_bmToggleBtn_blrlm_muzzle.SetBitmap(wx.Image.ConvertToBitmap(image))
+        image.Replace(255, 255, 255, 255, 165, 0)
+        self.m_bmToggleBtn_blrlm_muzzle.SetBitmapPressed(wx.Image.ConvertToBitmap(image))
+
+        # MAGAZINE
+        image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Mag.TGA')).Scale(32, 32)
+        self.m_bmToggleBtn_blrlm_magazine.SetBitmap(wx.Image.ConvertToBitmap(image))
+        image.Replace(255, 255, 255, 255, 165, 0)
+        self.m_bmToggleBtn_blrlm_magazine.SetBitmapPressed(wx.Image.ConvertToBitmap(image))
+
+        # GRIP
+        image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Grip.TGA')).Scale(32, 32)
+        self.m_bmToggleBtn_blrlm_grip.SetBitmap(wx.Image.ConvertToBitmap(image))
+        image.Replace(255, 255, 255, 255, 165, 0)
+        self.m_bmToggleBtn_blrlm_grip.SetBitmapPressed(wx.Image.ConvertToBitmap(image))
+
+        # TAG
+        image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Tag.TGA')).Scale(32, 32)
+        self.m_bmToggleBtn_blrlm_tag.SetBitmap(wx.Image.ConvertToBitmap(image))
+        image.Replace(255, 255, 255, 255, 165, 0)
+        self.m_bmToggleBtn_blrlm_tag.SetBitmapPressed(wx.Image.ConvertToBitmap(image))
+
+        # CAMO
+        image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Camo.TGA')).Scale(32, 32)
+        self.m_bmToggleBtn_blrlm_camo.SetBitmap(wx.Image.ConvertToBitmap(image))
+        image.Replace(255, 255, 255, 255, 165, 0)
+        self.m_bmToggleBtn_blrlm_camo.SetBitmapPressed(wx.Image.ConvertToBitmap(image))
+
+# --------------------------------------------------------------------------- #
 
         # Reset Buttons
         image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/t_viewLast.TGA')).Resize(wx.Size(30, 34), wx.DefaultPosition)
@@ -130,6 +206,13 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.m_bpButton_blrlm_stock_reset.SetBitmap(wx.Image.ConvertToBitmap(image))
         self.m_bpButton_blrlm_barrel_reset.SetBitmap(wx.Image.ConvertToBitmap(image))
         self.m_bpButton_blrlm_scope_reset.SetBitmap(wx.Image.ConvertToBitmap(image))
+        self.m_bpButton_blrlm_muzzle_reset.SetBitmap(wx.Image.ConvertToBitmap(image))
+        self.m_bpButton_blrlm_magazine_reset.SetBitmap(wx.Image.ConvertToBitmap(image))
+        self.m_bpButton_blrlm_grip_reset.SetBitmap(wx.Image.ConvertToBitmap(image))
+        self.m_bpButton_blrlm_tag_reset.SetBitmap(wx.Image.ConvertToBitmap(image))
+        self.m_bpButton_blrlm_camo_reset.SetBitmap(wx.Image.ConvertToBitmap(image))
+
+# --------------------------------------------------------------------------- #
 
         # Loadout Toggle Buttons
         image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/UI_Icons/Gear/t_AR.TGA')).Scale(64, 64)
@@ -162,6 +245,8 @@ class BLRFrame(BLR_LMGR_FRAME):
         image.Replace(255, 255, 255, 255, 165, 0)
         self.m_bmToggleBtnSecondary3.SetBitmapPressed(wx.Image.ConvertToBitmap(image))
 
+# --------------------------------------------------------------------------- #
+
         # image = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/UI_Emblems/Top/t_emblem_top_62.TGA')).Scale(24, 24)
         # self.m_bmToggleBtnLoadout1.SetBitmap(wx.Image.ConvertToBitmap(image))
         # image.Replace(255, 255, 255, 255, 165, 0)
@@ -180,11 +265,18 @@ class BLRFrame(BLR_LMGR_FRAME):
         # self.m_bmToggleBtnLoadout3.SetBitmapPressed(wx.NullBitmap)  # (wx.Image.ConvertToBitmap(image))
         self.m_bmToggleBtnLoadout3.SetLabelMarkup('<span face="ProFontWindows" size="14336">LOADOUT 3</span>')
 
+# --------------------------------------------------------------------------- #
+
         # Toggle Text
         self.m_staticText_blrlm_receiver.SetFont(self.font_blr_UI_12)
         self.m_staticText_blrlm_stock.SetFont(self.font_blr_UI_12)
         self.m_staticText_blrlm_barrel.SetFont(self.font_blr_UI_12)
         self.m_staticText_blrlm_scope.SetFont(self.font_blr_UI_12)
+        self.m_staticText_blrlm_muzzle.SetFont(self.font_blr_UI_12)
+        self.m_staticText_blrlm_magazine.SetFont(self.font_blr_UI_12)
+        self.m_staticText_blrlm_grip.SetFont(self.font_blr_UI_12)
+        self.m_staticText_blrlm_tag.SetFont(self.font_blr_UI_12)
+        self.m_staticText_blrlm_camo.SetFont(self.font_blr_UI_12)
 
 # --------------------------------------------------------------------------- #
 
@@ -254,8 +346,9 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.listctrl_load_columns(self.receiver_columns)
 
         # Load Items
-        for item in self.temp_receivers:
+        for idx, item in enumerate(self.temp_receivers):
             self.m_listCtrl_blrlm_selector.Append([item])
+            self.m_listCtrl_blrlm_selector.SetItemData(self.m_listCtrl_blrlm_selector.GetItemCount() - 1, idx)
 
         # column_ref = {}
         # i = 0
@@ -311,8 +404,9 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.listctrl_load_columns(self.stock_columns)
 
         # Load Items
-        for item in self.temp_stocks:
+        for idx, item in enumerate(self.temp_stocks):
             self.m_listCtrl_blrlm_selector.Append([item])
+            self.m_listCtrl_blrlm_selector.SetItemData(self.m_listCtrl_blrlm_selector.GetItemCount() - 1, idx)
 
         # Format the items
         self.listctrl_format_items()
@@ -336,8 +430,9 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.listctrl_load_columns(self.barrel_columns)
 
         # Load Items
-        for item in self.temp_barrels:
+        for idx, item in enumerate(self.temp_barrels):
             self.m_listCtrl_blrlm_selector.Append([item])
+            self.m_listCtrl_blrlm_selector.SetItemData(self.m_listCtrl_blrlm_selector.GetItemCount() - 1, idx)
 
         # Format the items
         self.listctrl_format_items()
@@ -361,8 +456,87 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.listctrl_load_columns(self.scope_columns)
 
         # Load Items
-        for item in self.temp_scopes:
+        for idx, item in enumerate(self.temp_scopes):
             self.m_listCtrl_blrlm_selector.Append([item])
+            self.m_listCtrl_blrlm_selector.SetItemData(self.m_listCtrl_blrlm_selector.GetItemCount() - 1, idx)
+
+        # Format the items
+        self.listctrl_format_items()
+
+        # Thaw the display of the control
+        self.m_listCtrl_blrlm_selector.Thaw()
+
+# --------------------------------------------------------------------------- #
+
+    def listctrl_load_muzzles(self):
+        # Freeze the display of the control
+        self.m_listCtrl_blrlm_selector.Freeze()
+
+        # Clear the existing items
+        self.listctrl_clear_rows()
+
+        # Clear the existing columns
+        self.listctrl_clear_columns()
+
+        # Populate the columns for the Scopes
+        self.listctrl_load_columns(self.muzzle_columns)
+
+        # Load Items
+        for idx, item in enumerate(self.temp_muzzles):
+            self.m_listCtrl_blrlm_selector.Append([item])
+            self.m_listCtrl_blrlm_selector.SetItemData(self.m_listCtrl_blrlm_selector.GetItemCount() - 1, idx)
+
+        # Format the items
+        self.listctrl_format_items()
+
+        # Thaw the display of the control
+        self.m_listCtrl_blrlm_selector.Thaw()
+
+# --------------------------------------------------------------------------- #
+
+    def listctrl_load_magazines(self):
+        # Freeze the display of the control
+        self.m_listCtrl_blrlm_selector.Freeze()
+
+        # Clear the existing items
+        self.listctrl_clear_rows()
+
+        # Clear the existing columns
+        self.listctrl_clear_columns()
+
+        # Populate the columns for the Scopes
+        self.listctrl_load_columns(self.magazine_columns)
+
+        # Load Items
+        for idx, item in enumerate(self.temp_magazines):
+            self.m_listCtrl_blrlm_selector.Append([item])
+            self.m_listCtrl_blrlm_selector.SetItemData(self.m_listCtrl_blrlm_selector.GetItemCount() - 1, idx)
+
+        # Format the items
+        self.listctrl_format_items()
+
+        # Thaw the display of the control
+        self.m_listCtrl_blrlm_selector.Thaw()
+
+# --------------------------------------------------------------------------- #
+
+    def listctrl_load_grips(self):
+        # Freeze the display of the control
+        self.m_listCtrl_blrlm_selector.Freeze()
+
+        # Clear the existing items
+        self.listctrl_clear_rows()
+
+        # Clear the existing columns
+        self.listctrl_clear_columns()
+
+        # Populate the columns for the Scopes
+        self.listctrl_load_columns(self.grip_columns)
+
+        # Load Items
+        # for idx, item in enumerate(self.temp_grips):
+        #     self.m_listCtrl_blrlm_selector.Append([item])
+        #     self.m_listCtrl_blrlm_selector.SetItemData(self.m_listCtrl_blrlm_selector.GetItemCount() - 1, idx)
 
         # Format the items
         self.listctrl_format_items()
@@ -384,6 +558,7 @@ class BLRFrame(BLR_LMGR_FRAME):
     def set_equipped_gear(self, event):
         # print('SET EQUIPPED GEAR')
         fname = event.GetText()
+        data = event.GetItem().GetData()
         ui_path = 'resource/FoxGame/Content/Packages/UI2/'
         bitmap_path = self.df_primary.query('FriendlyName == @fname')
         if not bitmap_path.empty:
@@ -414,6 +589,28 @@ class BLRFrame(BLR_LMGR_FRAME):
         elif self.m_bmToggleBtn_blrlm_scope.GetValue():
             self.m_staticText_blrlm_scope.SetLabel(fname)
             self.m_bitmap_blrlm_scope.SetBitmap(bitmap)
+
+        elif self.m_bmToggleBtn_blrlm_muzzle.GetValue():
+            self.muzzle_idx = data
+            self.m_staticText_blrlm_muzzle.SetLabel(fname)
+            self.m_bitmap_blrlm_muzzle.SetBitmap(bitmap)
+
+        elif self.m_bmToggleBtn_blrlm_magazine.GetValue():
+            self.magazine_idx = data
+            self.m_staticText_blrlm_magazine.SetLabel(fname)
+            self.m_bitmap_blrlm_magazine.SetBitmap(bitmap)
+
+        elif self.m_bmToggleBtn_blrlm_grip.GetValue():
+            self.m_staticText_blrlm_grip.SetLabel(fname)
+            self.m_bitmap_blrlm_grip.SetBitmap(bitmap)
+
+        elif self.m_bmToggleBtn_blrlm_tag.GetValue():
+            self.m_staticText_blrlm_tag.SetLabel(fname)
+            self.m_bitmap_blrlm_tag.SetBitmap(bitmap)
+
+        elif self.m_bmToggleBtn_blrlm_camo.GetValue():
+            self.m_staticText_blrlm_camo.SetLabel(fname)
+            self.m_bitmap_blrlm_camo.SetBitmap(bitmap)
 
         self.export_current_loadouts()
 
@@ -449,7 +646,24 @@ class BLRFrame(BLR_LMGR_FRAME):
         fname = self.m_staticText_blrlm_scope.GetLabelText()
         scope = BLReviveScope(None, fname)
 
-        return BLReviveWeapon(name, receiver, stock, barrel, scope)
+        fname = self.m_staticText_blrlm_muzzle.GetLabelText()
+        index = self.muzzle_idx
+        muzzle = BLReviveMuzzle(index, fname)
+
+        fname = self.m_staticText_blrlm_magazine.GetLabelText()
+        index = self.magazine_idx
+        magazine = BLReviveMagazine(index, fname)
+
+        fname = self.m_staticText_blrlm_grip.GetLabelText()
+        grip = BLReviveGrip(None, fname)
+
+        fname = self.m_staticText_blrlm_tag.GetLabelText()
+        tag = BLReviveTag(None, fname)
+
+        fname = self.m_staticText_blrlm_camo.GetLabelText()
+        camo = BLReviveCamo(None, fname)
+
+        return BLReviveWeapon(name, receiver, stock, barrel, scope, muzzle, magazine, grip, tag, camo)
 
 # --------------------------------------------------------------------------- #
 
@@ -511,6 +725,21 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.m_staticText_blrlm_scope.SetLabel('')
         self.m_bitmap_blrlm_scope.SetBitmap(wx.NullBitmap)
 
+        self.m_staticText_blrlm_muzzle.SetLabel('')
+        self.m_bitmap_blrlm_muzzle.SetBitmap(wx.NullBitmap)
+
+        self.m_staticText_blrlm_magazine.SetLabel('')
+        self.m_bitmap_blrlm_magazine.SetBitmap(wx.NullBitmap)
+
+        self.m_staticText_blrlm_grip.SetLabel('')
+        self.m_bitmap_blrlm_grip.SetBitmap(wx.NullBitmap)
+
+        self.m_staticText_blrlm_tag.SetLabel('')
+        self.m_bitmap_blrlm_tag.SetBitmap(wx.NullBitmap)
+
+        self.m_staticText_blrlm_camo.SetLabel('')
+        self.m_bitmap_blrlm_camo.SetBitmap(wx.NullBitmap)
+
 # --------------------------------------------------------------------------- #
 
     def handle_gear_toggle(self, source):
@@ -534,6 +763,16 @@ class BLRFrame(BLR_LMGR_FRAME):
             self.m_bmToggleBtn_blrlm_scope.SetValue(False)
         else:
             self.listctrl_load_scopes()
+
+        if source != 'm_bmToggleBtn_blrlm_muzzle':
+            self.m_bmToggleBtn_blrlm_muzzle.SetValue(False)
+        else:
+            self.listctrl_load_muzzles()
+
+        if source != 'm_bmToggleBtn_blrlm_magazine':
+            self.m_bmToggleBtn_blrlm_magazine.SetValue(False)
+        else:
+            self.listctrl_load_magazines()
 
 # --------------------------------------------------------------------------- #
 
@@ -693,8 +932,8 @@ class BLRFrame(BLR_LMGR_FRAME):
         if source == UIAttachment.RECEIVER:
             # Reset all attachments
 
-            # self.m_staticText_blrlm_muzzle.SetLabel('')
-            # self.m_bitmap_blrlm_muzzle.SetBitmap(wx.NullBitmap)
+            self.m_staticText_blrlm_muzzle.SetLabel('')
+            self.m_bitmap_blrlm_muzzle.SetBitmap(wx.NullBitmap)
 
             self.m_staticText_blrlm_stock.SetLabel('')
             self.m_bitmap_blrlm_stock.SetBitmap(wx.NullBitmap)
@@ -702,19 +941,24 @@ class BLRFrame(BLR_LMGR_FRAME):
             self.m_staticText_blrlm_barrel.SetLabel('')
             self.m_bitmap_blrlm_barrel.SetBitmap(wx.NullBitmap)
 
-            # self.m_staticText_blrlm_magazine.SetLabel('')
-            # self.m_bitmap_blrlm_magazine.SetBitmap(wx.NullBitmap)
+            self.m_staticText_blrlm_magazine.SetLabel('')
+            self.m_bitmap_blrlm_magazine.SetBitmap(wx.NullBitmap)
 
             self.m_staticText_blrlm_scope.SetLabel('')
             self.m_bitmap_blrlm_scope.SetBitmap(wx.NullBitmap)
 
-            # self.m_staticText_blrlm_grip.SetLabel('')
-            # self.m_bitmap_blrlm_grip.SetBitmap(wx.NullBitmap)
+            self.m_staticText_blrlm_grip.SetLabel('')
+            self.m_bitmap_blrlm_grip.SetBitmap(wx.NullBitmap)
+
+            self.m_staticText_blrlm_tag.SetLabel('')
+            self.m_bitmap_blrlm_tag.SetBitmap(wx.NullBitmap)
+
+            self.m_staticText_blrlm_camo.SetLabel('')
+            self.m_bitmap_blrlm_camo.SetBitmap(wx.NullBitmap)
 
         elif source == UIAttachment.MUZZLE:
-            # self.m_staticText_blrlm_muzzle.SetLabel('')
-            # self.m_bitmap_blrlm_muzzle.SetBitmap(wx.NullBitmap)
-            pass
+            self.m_staticText_blrlm_muzzle.SetLabel('')
+            self.m_bitmap_blrlm_muzzle.SetBitmap(wx.NullBitmap)
 
         elif source == UIAttachment.STOCK:
             self.m_staticText_blrlm_stock.SetLabel('')
@@ -725,18 +969,24 @@ class BLRFrame(BLR_LMGR_FRAME):
             self.m_bitmap_blrlm_barrel.SetBitmap(wx.NullBitmap)
 
         elif source == UIAttachment.MAGAZINE:
-            # self.m_staticText_blrlm_magazine.SetLabel('')
-            # self.m_bitmap_blrlm_magazine.SetBitmap(wx.NullBitmap)
-            pass
+            self.m_staticText_blrlm_magazine.SetLabel('')
+            self.m_bitmap_blrlm_magazine.SetBitmap(wx.NullBitmap)
 
         elif source == UIAttachment.SCOPE:
             self.m_staticText_blrlm_scope.SetLabel('')
             self.m_bitmap_blrlm_scope.SetBitmap(wx.NullBitmap)
 
         elif source == UIAttachment.GRIP:
-            # self.m_staticText_blrlm_grip.SetLabel('')
-            # self.m_bitmap_blrlm_grip.SetBitmap(wx.NullBitmap)
-            pass
+            self.m_staticText_blrlm_grip.SetLabel('')
+            self.m_bitmap_blrlm_grip.SetBitmap(wx.NullBitmap)
+
+        elif source == UIAttachment.TAG:
+            self.m_staticText_blrlm_tag.SetLabel('')
+            self.m_bitmap_blrlm_tag.SetBitmap(wx.NullBitmap)
+
+        elif source == UIAttachment.CAMO:
+            self.m_staticText_blrlm_camo.SetLabel('')
+            self.m_bitmap_blrlm_camo.SetBitmap(wx.NullBitmap)
 
         self.export_current_loadouts()
 
@@ -778,6 +1028,29 @@ class BLRFrame(BLR_LMGR_FRAME):
         else:
             self.m_bmToggleBtn_blrlm_scope.SetValue(True)
         event.Skip()
+
+    def m_bmToggleBtn_blrlm_muzzleOnToggleButton(self, event):
+        if self.m_bmToggleBtn_blrlm_muzzle.GetValue():
+            self.handle_gear_toggle('m_bmToggleBtn_blrlm_muzzle')
+        else:
+            self.m_bmToggleBtn_blrlm_muzzle.SetValue(True)
+        event.Skip()
+
+    def m_bmToggleBtn_blrlm_magazineOnToggleButton(self, event):
+        if self.m_bmToggleBtn_blrlm_magazine.GetValue():
+            self.handle_gear_toggle('m_bmToggleBtn_blrlm_magazine')
+        else:
+            self.m_bmToggleBtn_blrlm_magazine.SetValue(True)
+        event.Skip()
+
+    def m_bmToggleBtn_blrlm_gripOnToggleButton(self, event):
+        if self.m_bmToggleBtn_blrlm_grip.GetValue():
+            self.handle_gear_toggle('m_bmToggleBtn_blrlm_grip')
+        else:
+            self.m_bmToggleBtn_blrlm_grip.SetValue(True)
+        event.Skip()
+
+    # TODO: Tag and Camo
 
     def m_panel_partselect_re1OnLeftUp(self, event):
         self.m_bmToggleBtn_blrlm_receiver.SetValue(True)
@@ -839,6 +1112,8 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.m_bmToggleBtn_blrlm_scopeOnToggleButton(event)
         # event.Skip()
 
+    # TODO: Tag and Camo
+
     def m_bpButton_blrlm_receiver_resetOnButtonClick(self, event):
         self.reset_attachment(UIAttachment.RECEIVER)
         event.Skip()
@@ -853,6 +1128,26 @@ class BLRFrame(BLR_LMGR_FRAME):
 
     def m_bpButton_blrlm_scope_resetOnButtonClick(self, event):
         self.reset_attachment(UIAttachment.SCOPE)
+        event.Skip()
+
+    def m_bpButton_blrlm_muzzle_resetOnButtonClick(self, event):
+        self.reset_attachment(UIAttachment.MUZZLE)
+        event.Skip()
+
+    def m_bpButton_blrlm_magazine_resetOnButtonClick(self, event):
+        self.reset_attachment(UIAttachment.MAGAZINE)
+        event.Skip()
+
+    def m_bpButton_blrlm_grip_resetOnButtonClick(self, event):
+        self.reset_attachment(UIAttachment.GRIP)
+        event.Skip()
+
+    def m_bpButton_blrlm_tag_resetOnButtonClick(self, event):
+        self.reset_attachment(UIAttachment.TAG)
+        event.Skip()
+
+    def m_bpButton_blrlm_camo_resetOnButtonClick(self, event):
+        self.reset_attachment(UIAttachment.CAMO)
         event.Skip()
 
 # --------------------------------------------------------------------------- #
@@ -914,6 +1209,7 @@ class BLRFrame(BLR_LMGR_FRAME):
 
     def m_listCtrl_blrlm_selectorOnListItemActivated(self, event):
         self.ln.dbwp(f'List Item Activated Event: {str(event)}')
+        # breakpoint()
         self.set_equipped_gear(event)
         event.Skip()
 

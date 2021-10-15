@@ -1,12 +1,12 @@
 {
     "SavedSession": {
         "P1": {
-            "name": "FoxWeapon_AssaultRifle",
+            "name": "FoxWeapon_SMG2",
             "receiver": {
-                "config_name": "FoxWeapon_AssaultRifle",
-                "friendly_name": "Assault Rifle",
-                "image_path": "UI_NewItemIcons/Primary/t_AssultRifle_256x128.TGA",
-                "icon_path": "UI_NewItemIcons/Primary/t_AssultRifle_256x128.TGA",
+                "config_name": "FoxWeapon_SMG2",
+                "friendly_name": "Tactical SMG",
+                "image_path": "UI_NewItemIcons/Primary/t_TacticalSMG_256x128.TGA",
+                "icon_path": "UI_NewItemIcons/Primary/t_TacticalSMG_256x128.TGA",
                 "gear_types": []
             },
             "stock": {
@@ -24,6 +24,41 @@
                 "gear_types": []
             },
             "scope": {
+                "config_name": null,
+                "friendly_name": "OPRL Holo Sight",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "muzzle": {
+                "config_name": 13,
+                "friendly_name": "Vulcan Power Brake",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "magazine": {
+                "config_name": 112,
+                "friendly_name": "Tactical SMG Explosive",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "grip": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "tag": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "camo": {
                 "config_name": null,
                 "friendly_name": "",
                 "image_path": null,
@@ -35,7 +70,7 @@
             "name": null,
             "receiver": {
                 "config_name": null,
-                "friendly_name": "Combat Knife Mk.1",
+                "friendly_name": "Revival Injector Mk.1",
                 "image_path": null,
                 "icon_path": null,
                 "gear_types": []
@@ -55,6 +90,41 @@
                 "gear_types": []
             },
             "scope": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "muzzle": {
+                "config_name": 13,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "magazine": {
+                "config_name": 112,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "grip": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "tag": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "camo": {
                 "config_name": null,
                 "friendly_name": "",
                 "image_path": null,
@@ -91,6 +161,41 @@
                 "image_path": null,
                 "icon_path": null,
                 "gear_types": []
+            },
+            "muzzle": {
+                "config_name": 0,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "magazine": {
+                "config_name": -1,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "grip": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "tag": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "camo": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
             }
         },
         "S2": {
@@ -117,6 +222,41 @@
                 "gear_types": []
             },
             "scope": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "muzzle": {
+                "config_name": 0,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "magazine": {
+                "config_name": -1,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "grip": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "tag": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "camo": {
                 "config_name": null,
                 "friendly_name": "",
                 "image_path": null,
@@ -153,6 +293,41 @@
                 "image_path": null,
                 "icon_path": null,
                 "gear_types": []
+            },
+            "muzzle": {
+                "config_name": 0,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "magazine": {
+                "config_name": -1,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "grip": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "tag": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "camo": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
             }
         },
         "S3": {
@@ -179,6 +354,41 @@
                 "gear_types": []
             },
             "scope": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "muzzle": {
+                "config_name": 0,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "magazine": {
+                "config_name": -1,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "grip": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "tag": {
+                "config_name": null,
+                "friendly_name": "",
+                "image_path": null,
+                "icon_path": null,
+                "gear_types": []
+            },
+            "camo": {
                 "config_name": null,
                 "friendly_name": "",
                 "image_path": null,
