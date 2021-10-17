@@ -7,6 +7,8 @@ Requires: N/A
 
 @author: Kinetos#6935
 """
+import numpy as np
+from helpers_pyinstaller import resource_path
 
 
 class BLReviveGear:
@@ -235,13 +237,23 @@ class BLReviveWeapon:
 # --------------------------------------------------------------------------- #
 
     def ToMagiCow(self):
+        columns = np.genfromtxt(resource_path('data/muzzles.csv'), delimiter=',', dtype=str)
+        muzzles = list(columns.T[1])
+        columns = np.genfromtxt(resource_path('data/magazines.csv'), delimiter=',', dtype=str)
+        magazines = list(columns.T[1])
         weapon = {}
-        # TODO: Change to a more permanent solution than using config name as the index
         weapon['Receiver'] = self.receiver.friendly_name
-        weapon['Muzzle'] = int(self.muzzle.config_name)
+        if self.muzzle.friendly_name in muzzles:
+            weapon['Muzzle'] = muzzles.index(self.muzzle.friendly_name)
+        else:
+            weapon['Muzzle'] = 0
         weapon['Stock'] = self.stock.friendly_name
         weapon['Barrel'] = self.barrel.friendly_name
-        weapon['Magazine'] = int(self.magazine.config_name)
+        if self.magazine.friendly_name in magazines:
+            weapon['Magazine'] = magazines.index(self.magazine.friendly_name)
+        else:
+            # TODO: Add default magazine pairs to auto set this
+            weapon['Magazine'] = -1
         weapon['Scope'] = self.scope.friendly_name
         weapon['Grip'] = self.grip.friendly_name
         return weapon

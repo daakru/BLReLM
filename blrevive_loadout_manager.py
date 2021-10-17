@@ -765,6 +765,7 @@ class BLRFrame(BLR_LMGR_FRAME):
         else:
             self.m_bitmap_blrlm_muzzle.SetBitmap(wx.NullBitmap)
         self.m_staticText_blrlm_muzzle.SetLabel(weapon.muzzle.GetFriendlyName())
+        self.muzzle_idx = int(weapon.muzzle.GetName())
 
         if weapon.magazine.GetImageIconPath() is not None:
             bitmap = wx.Image.ConvertToBitmap(wx.Image(resource_path(ui_path + weapon.magazine.GetImageIconPath())).Scale(64, 32))
@@ -772,6 +773,7 @@ class BLRFrame(BLR_LMGR_FRAME):
         else:
             self.m_bitmap_blrlm_magazine.SetBitmap(wx.NullBitmap)
         self.m_staticText_blrlm_magazine.SetLabel(weapon.magazine.GetFriendlyName())
+        self.magazine_idx = int(weapon.magazine.GetName())
 
         if weapon.grip.GetImageIconPath() is not None:
             bitmap = wx.Image.ConvertToBitmap(wx.Image(resource_path(ui_path + weapon.grip.GetImageIconPath())).Scale(64, 32))
