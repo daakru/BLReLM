@@ -8,6 +8,7 @@
 ###########################################################################
 
 from bitmap_panel import BitmapPanel
+from part_select_panel import PartSelectPanel
 import wx
 import wx.xrc
 import wx.stc
@@ -378,6 +379,9 @@ class BLR_LMGR_FRAME ( wx.Frame ):
         self.m_panel_partselect_cm1.Layout()
         bSizerPSCM1.Fit( self.m_panel_partselect_cm1 )
         bSizerPartSelect.Add( self.m_panel_partselect_cm1, 0, wx.EXPAND |wx.ALL, 4 )
+
+        self.m_panel14 = PartSelectPanel( self.m_panel_partselect, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_SIMPLE )
+        bSizerPartSelect.Add( self.m_panel14, 0, wx.EXPAND |wx.ALL, 4 )
 
 
         bSizer19.Add( bSizerPartSelect, 0, wx.EXPAND, 0 )

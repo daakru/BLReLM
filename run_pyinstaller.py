@@ -74,7 +74,7 @@ def make_specfile():
     #     'multiprocessing.util'
     # ]
 
-    # pyoptimize = 'set PYTHONOPTIMIZE=1 && '
+    pyoptimize = 'set PYTHONOPTIMIZE=1 && '
     pyoptimize = ''
     excstr = ' '.join([f'--exclude-module {m}' for m in excluded_modules])
     optstr = ' '.join(options)

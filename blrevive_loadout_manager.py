@@ -148,6 +148,14 @@ class BLRFrame(BLR_LMGR_FRAME):
 
 # --------------------------------------------------------------------------- #
 
+        self.m_panel14.set_part_elements(
+            toggle_img=wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/reciever.TGA')),
+            text_font=self.font_blr_UI_12, text_label=None, image_bmp=None,
+            reset_bmp=wx.Image.ConvertToBitmap(wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/t_viewLast.TGA')).Resize(wx.Size(30, 34), wx.DefaultPosition))
+        )
+
+        self.m_panel14.Hide()
+
         # Toggle Buttons
 
         # RECEIVER
@@ -1508,10 +1516,26 @@ class wxApp_LocaleFix(wx.App):
                 lang, enc = locale.getdefaultlocale()
                 self._initial_locale = wx.Locale(lang, lang[:2], lang)
                 # locale.setlocale(locale.LC_ALL, lang)
-                locale.setlocale(locale.LC_ALL, 'C')
+                # locale.setlocale(locale.LC_ALL, 'C')
+                with open('./launch.log', 'a') as fp:
+                    fp.write(f'wxApp_LocaleFix.InitLocale: lang = {lang}\n')
+                print(lang)
             except (ValueError, locale.Error) as ex:
                 target = wx.LogStderr()
                 orig = wx.Log.SetActiveTarget(target)
+                with open('./launch.log', 'a') as fp:
+                    fp.write(f'wxApp_LocaleFix.InitLocale:except-0 Unable to set default locale: \'{ex}\'\n')
+                print("Unable to set default locale: '{}'".format(ex))
+                wx.LogError("Unable to set default locale: '{}'".format(ex))
+                wx.Log.SetActiveTarget(orig)
+            try:
+                locale.setlocale(locale.LC_ALL, lang.replace('_', '-'))
+            except (ValueError, locale.Error) as ex:
+                locale.setlocale(locale.LC_ALL, lang.replace('-', '_'))
+                target = wx.LogStderr()
+                orig = wx.Log.SetActiveTarget(target)
+                with open('./launch.log', 'a') as fp:
+                    fp.write(f'wxApp_LocaleFix.InitLocale:except-1 Unable to set default locale: \'{ex}\'\n')
                 print("Unable to set default locale: '{}'".format(ex))
                 wx.LogError("Unable to set default locale: '{}'".format(ex))
                 wx.Log.SetActiveTarget(orig)
@@ -1535,8 +1559,30 @@ def start_app(parent=None, logfile=None, debug=False):
     None.
 
     """
-    # app = wx.App()
+    with open('./launch.log', 'w') as fp:
+        pass
+    # try:
+    #     app = wxApp_LocaleFix()
+
+    #     frm = BLRFrame(parent, logfile, debug)
+    #     frm.post_init()
+    #     frm.Show()
+    #     app.MainLoop()
+    #     with open('./launch.log', 'w') as fp:
+    #         fp.write('Launch with wxApp_LocaleFix.')
+    # except AssertionError:
+    #     with open('./launch.log', 'w') as fp:
+    #         fp.write('Caught Exception: AssertionError. Trying default wxApp.')
+    #     app = wx.App()
+
+    #     frm = BLRFrame(parent, logfile, debug)
+    #     frm.post_init()
+    #     frm.Show()
+    #     app.MainLoop()
     app = wxApp_LocaleFix()
+
+    with open('./launch.log', 'a') as fp:
+        fp.write('Launch with wxApp_LocaleFix.\n')
     frm = BLRFrame(parent, logfile, debug)
     frm.post_init()
     frm.Show()

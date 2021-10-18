@@ -75,3 +75,9 @@ class BitmapPanel(wx.Panel):
         return self.bitmap
 
 # --------------------------------------------------------------------------- #
+
+    def DisableBitmap(self, bDisable):
+        if bDisable:
+            self.Bind(wx.EVT_ERASE_BACKGROUND, None)
+        else:
+            self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
