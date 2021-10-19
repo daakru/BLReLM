@@ -21,12 +21,13 @@ class UIGear(Enum):
 
 
 class UIAttachment(Enum):
-    RECEIVER = 0
-    MUZZLE = 1
-    BARREL = 2
-    GRIP = 3
-    MAGAZINE = 4
-    SCOPE = 5
-    STOCK = 6
-    TAG = 7
-    CAMO = 8
+    NONE = 0
+    RECEIVER = 1
+    MUZZLE = 2
+    BARREL = 3
+    GRIP = 4
+    MAGAZINE = 5
+    SCOPE = 6
+    STOCK = 7
+    TAG = 8
+    CAMO = 9

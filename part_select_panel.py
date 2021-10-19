@@ -1,6 +1,7 @@
 import wx
 
 from bitmap_panel import BitmapPanel
+from blrevive_enums import UIAttachment
 
 
 class PartSelectPanel(BitmapPanel):
@@ -8,6 +9,8 @@ class PartSelectPanel(BitmapPanel):
         super().__init__(*args, **kw)
 
         self.DisableBitmap(True)
+
+        self.PartID = UIAttachment.NONE
 
         # self.SetBorder(wx.BORDER_SIMPLE)
         # self.SetPosition(wx.DefaultPosition)
@@ -49,7 +52,15 @@ class PartSelectPanel(BitmapPanel):
         bSizerPSP.Fit(self)
         # parentSizer.Add( self, 0, wx.EXPAND |wx.ALL, 4 )
 
-    def set_part_elements(self, toggle_img, text_font, text_label, image_bmp, reset_bmp):
+        self.Bind(wx.EVT_LEFT_UP, self.ui_panel_OnLeftUp)
+        self.ui_toggle.Bind(wx.EVT_TOGGLEBUTTON, self.ui_toggle_OnToggleButton)
+        self.ui_bitmap.Bind(wx.EVT_LEFT_UP, self.ui_bitmap_OnLeftUp)
+        self.ui_text.Bind(wx.EVT_LEFT_UP, self.ui_text_OnLeftUp)
+        self.ui_reset.Bind(wx.EVT_BUTTON, self.ui_reset_OnButtonClick)
+
+    def set_part_elements(self, part_id, toggle_img, text_font, text_label, image_bmp, reset_bmp):
+        if type(part_id) == UIAttachment:
+            self.PartID = part_id
         if toggle_img is not None:
             toggle_img = toggle_img.Scale(32, 32)
             self.ui_toggle.SetBitmap(wx.Image.ConvertToBitmap(toggle_img))
@@ -63,3 +74,28 @@ class PartSelectPanel(BitmapPanel):
             self.ui_bitmap.SetBitmap(image_bmp)
         if reset_bmp is not None:
             self.ui_reset.SetBitmap(reset_bmp)
+
+    def handle_ui_panel_selected(self):
+        parentframe = self.GetParent()
+        while parentframe.GetParent() is not None:
+            parentframe = parentframe.GetParent()
+        self.ui_toggle.SetValue(True)
+        if self.ui_toggle.GetValue():
+            parentframe.handle_gear_toggle_2(self.PartID)
+        else:
+            self.ui_toggle.SetValue(True)
+
+    def ui_panel_OnLeftUp(self, event):
+        self.handle_ui_panel_selected()
+
+    def ui_toggle_OnToggleButton(self, event):
+        self.handle_ui_panel_selected()
+
+    def ui_bitmap_OnLeftUp(self, event):
+        self.handle_ui_panel_selected()
+
+    def ui_text_OnLeftUp(self, event):
+        self.handle_ui_panel_selected()
+
+    def ui_reset_OnButtonClick(self, event):
+        event.Skip()

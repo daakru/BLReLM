@@ -47,6 +47,8 @@ class BLRFrame(BLR_LMGR_FRAME):
         # Load user settings from settings.json
         self.user_settings = blrtk.get_user_config()
 
+        self.part_select_panels = [self.m_panel14]
+
         self.gear_slots = blrtk.load_saved_session()
         self.active_loadout = Gear.P1
         self.m_bmToggleBtnPrimary1.SetValue(True)
@@ -88,6 +90,17 @@ class BLRFrame(BLR_LMGR_FRAME):
         self.camo_columns[0] = 'Camo'
 
         # Lazy mode for now to get exporting to MagiCow functional
+        self.temp_attachments = {}
+        self.temp_attachments[UIAttachment.RECEIVER.name] = [blrtk.get_receivers(), self.receiver_columns]
+        self.temp_attachments[UIAttachment.MUZZLE.name] = [blrtk.get_muzzles(), self.muzzle_columns]
+        self.temp_attachments[UIAttachment.BARREL.name] = [blrtk.get_barrels(), self.barrel_columns]
+        self.temp_attachments[UIAttachment.GRIP.name] = [blrtk.get_grips(), self.grip_columns]
+        self.temp_attachments[UIAttachment.MAGAZINE.name] = [blrtk.get_magazines(), self.magazine_columns]
+        self.temp_attachments[UIAttachment.SCOPE.name] = [blrtk.get_scopes(), self.scope_columns]
+        self.temp_attachments[UIAttachment.STOCK.name] = [blrtk.get_stocks(), self.stock_columns]
+        self.temp_attachments[UIAttachment.TAG.name] = [[], self.tag_columns]
+        self.temp_attachments[UIAttachment.CAMO.name] = [[], self.camo_columns]
+
         self.temp_receivers = blrtk.get_receivers()
 
         self.temp_stocks = blrtk.get_stocks()
@@ -149,6 +162,7 @@ class BLRFrame(BLR_LMGR_FRAME):
 # --------------------------------------------------------------------------- #
 
         self.m_panel14.set_part_elements(
+            part_id=UIAttachment.RECEIVER,
             toggle_img=wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/reciever.TGA')),
             text_font=self.font_blr_UI_12, text_label=None, image_bmp=None,
             reset_bmp=wx.Image.ConvertToBitmap(wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/t_viewLast.TGA')).Resize(wx.Size(30, 34), wx.DefaultPosition))
@@ -845,6 +859,41 @@ class BLRFrame(BLR_LMGR_FRAME):
 
         self.m_staticText_blrlm_camo.SetLabel('')
         self.m_bitmap_blrlm_camo.SetBitmap(wx.NullBitmap)
+# --------------------------------------------------------------------------- #
+
+    def listctrl_load_parts(self, source):
+        # Freeze the display of the control
+        self.m_listCtrl_blrlm_selector.Freeze()
+
+        # Clear the existing items
+        self.listctrl_clear_rows()
+
+        # Clear the existing columns
+        self.listctrl_clear_columns()
+
+        source_data = self.temp_attachments[source.name]
+
+        # Populate the columns for the Camos
+        self.listctrl_load_columns(source_data[1])
+
+        # Load Items
+        for idx, item in enumerate(source_data[0]):
+            self.m_listCtrl_blrlm_selector.Append([item])
+            self.m_listCtrl_blrlm_selector.SetItemData(self.m_listCtrl_blrlm_selector.GetItemCount() - 1, idx)
+
+        # Format the items
+        self.listctrl_format_items()
+
+        # Thaw the display of the control
+        self.m_listCtrl_blrlm_selector.Thaw()
+
+    def handle_gear_toggle_2(self, source):
+        print('YAY!')
+        for psp in self.part_select_panels:
+            if psp.PartID != source:
+                psp.ui_toggle.SetValue(False)
+        self.listctrl_load_parts(source)
+        pass
 
 # --------------------------------------------------------------------------- #
 
