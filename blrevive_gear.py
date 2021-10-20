@@ -8,6 +8,7 @@ Requires: N/A
 @author: Kinetos#6935
 """
 import numpy as np
+from blrevive_enums import UIAttachment
 from helpers_pyinstaller import resource_path
 
 
@@ -208,15 +209,15 @@ class BLReviveCamo(BLReviveGear):
 
 
 class BLReviveWeapon:
-    def __init__(self, name, receiver, stock, barrel, scope, muzzle, magazine, grip, tag, camo):
+    def __init__(self, name, receiver, muzzle, grip, barrel, magazine, scope, stock, tag, camo):
         self.name = name
         self.receiver = receiver
-        self.stock = stock
-        self.barrel = barrel
-        self.scope = scope
         self.muzzle = muzzle
-        self.magazine = magazine
         self.grip = grip
+        self.barrel = barrel
+        self.magazine = magazine
+        self.scope = scope
+        self.stock = stock
         self.tag = tag
         self.camo = camo
 
@@ -225,12 +226,12 @@ class BLReviveWeapon:
     def EmptyWeapon():
         return BLReviveWeapon(None,
                               BLReviveReceiver.EmptyGear(),
-                              BLReviveStock.EmptyGear(),
-                              BLReviveBarrel.EmptyGear(),
-                              BLReviveScope.EmptyGear(),
                               BLReviveMuzzle.EmptyGear(),
-                              BLReviveMagazine.EmptyGear(),
                               BLReviveGrip.EmptyGear(),
+                              BLReviveBarrel.EmptyGear(),
+                              BLReviveMagazine.EmptyGear(),
+                              BLReviveScope.EmptyGear(),
+                              BLReviveStock.EmptyGear(),
                               BLReviveTag.EmptyGear(),
                               BLReviveCamo.EmptyGear())
 
@@ -282,12 +283,12 @@ class BLReviveWeapon:
         return BLReviveWeapon(
             weapon_dict['name'],
             re,
-            st,
-            ba,
-            sc,
             mz,
-            mg,
             gp,
+            ba,
+            mg,
+            sc,
+            st,
             tg,
             cm
         )
@@ -296,14 +297,28 @@ class BLReviveWeapon:
         return {
             'name': self.name,
             'receiver': self.receiver.to_dict(),
-            'stock': self.stock.to_dict(),
-            'barrel': self.barrel.to_dict(),
-            'scope': self.scope.to_dict(),
             'muzzle': self.muzzle.to_dict(),
-            'magazine': self.magazine.to_dict(),
             'grip': self.grip.to_dict(),
+            'barrel': self.barrel.to_dict(),
+            'magazine': self.magazine.to_dict(),
+            'scope': self.scope.to_dict(),
+            'stock': self.stock.to_dict(),
             'tag': self.tag.to_dict(),
             'camo': self.camo.to_dict()
+        }
+
+    def to_enum(self):
+        return {
+            'name': self.name,
+            UIAttachment.RECEIVER: self.receiver,
+            UIAttachment.MUZZLE: self.muzzle,
+            UIAttachment.GRIP: self.grip,
+            UIAttachment.BARREL: self.barrel,
+            UIAttachment.MAGAZINE: self.magazine,
+            UIAttachment.SCOPE: self.scope,
+            UIAttachment.STOCK: self.stock,
+            UIAttachment.TAG: self.tag,
+            UIAttachment.CAMO: self.camo
         }
 
 

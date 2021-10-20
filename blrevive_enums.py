@@ -24,8 +24,8 @@ class UIAttachment(Enum):
     NONE = 0
     RECEIVER = 1
     MUZZLE = 2
-    BARREL = 3
-    GRIP = 4
+    GRIP = 3
+    BARREL = 4
     MAGAZINE = 5
     SCOPE = 6
     STOCK = 7

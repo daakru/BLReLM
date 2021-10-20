@@ -125,6 +125,12 @@ def get_grips():
 # --------------------------------------------------------------------------- #
 
 
+def get_parent_frame(control):
+    while control.GetParent() is not None:
+        control = control.GetParent()
+    return control
+
+
 # Define filters for configparser functions
 def filter_FOXWEAPON(value):
     return value.startswith('FOXWEAPON_')

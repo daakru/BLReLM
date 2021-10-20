@@ -2,6 +2,9 @@ import wx
 
 from bitmap_panel import BitmapPanel
 from blrevive_enums import UIAttachment
+from blrevive_toolkit import get_parent_frame
+from blrevive_gear import BLReviveReceiver, BLReviveStock, BLReviveBarrel, BLReviveScope, BLReviveMuzzle, BLReviveMagazine, BLReviveGrip, BLReviveTag, BLReviveCamo
+from helpers_pyinstaller import resource_path
 
 
 class PartSelectPanel(BitmapPanel):
@@ -75,13 +78,98 @@ class PartSelectPanel(BitmapPanel):
         if reset_bmp is not None:
             self.ui_reset.SetBitmap(reset_bmp)
 
+    def set_part(self, part_id):
+        text_label = None
+        image_bmp = None
+        font_blr_UI_12 = wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "ProFontWindows")
+        reset_bmp = wx.Image.ConvertToBitmap(wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/t_exitgame.TGA')))
+
+        if part_id == UIAttachment.MUZZLE:
+            toggle_img = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Muzzle.TGA'))
+            text_font = font_blr_UI_12
+
+        elif part_id == UIAttachment.GRIP:
+            toggle_img = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Grip.TGA'))
+            text_font = font_blr_UI_12
+
+        elif part_id == UIAttachment.BARREL:
+            toggle_img = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Barrel.TGA'))
+            text_font = font_blr_UI_12
+
+        elif part_id == UIAttachment.MAGAZINE:
+            toggle_img = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Mag.TGA'))
+            text_font = font_blr_UI_12
+
+        elif part_id == UIAttachment.SCOPE:
+            toggle_img = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Scope.TGA'))
+            text_font = font_blr_UI_12
+
+        elif part_id == UIAttachment.STOCK:
+            toggle_img = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Stock.TGA'))
+            text_font = font_blr_UI_12
+
+        elif part_id == UIAttachment.TAG:
+            toggle_img = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Tag.TGA'))
+            text_font = font_blr_UI_12
+
+        elif part_id == UIAttachment.CAMO:
+            toggle_img = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/Camo.TGA'))
+            text_font = font_blr_UI_12
+
+        elif part_id == UIAttachment.RECEIVER:
+            toggle_img = wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/reciever.TGA'))
+            text_font = font_blr_UI_12
+            reset_bmp = wx.Image.ConvertToBitmap(wx.Image(resource_path('resource/FoxGame/Content/Packages/UI2/Menu/t_viewLast.TGA')).Resize(wx.Size(30, 34), wx.DefaultPosition))
+
+        self.set_part_elements(part_id, toggle_img, text_font, text_label, image_bmp, reset_bmp)
+
+    def create_attachment(self, name, fname, bitmap_path, icon_path):
+        if self.PartID == UIAttachment.RECEIVER:
+            return BLReviveReceiver(name, fname, bitmap_path, icon_path)
+
+        if self.PartID == UIAttachment.MUZZLE:
+            return BLReviveMuzzle(name, fname, bitmap_path, icon_path)
+
+        if self.PartID == UIAttachment.GRIP:
+            return BLReviveGrip(name, fname, bitmap_path, icon_path)
+
+        if self.PartID == UIAttachment.BARREL:
+            return BLReviveBarrel(name, fname, bitmap_path, icon_path)
+
+        if self.PartID == UIAttachment.MAGAZINE:
+            return BLReviveMagazine(name, fname, bitmap_path, icon_path)
+
+        if self.PartID == UIAttachment.SCOPE:
+            return BLReviveScope(name, fname, bitmap_path, icon_path)
+
+        if self.PartID == UIAttachment.STOCK:
+            return BLReviveStock(name, fname, bitmap_path, icon_path)
+
+        if self.PartID == UIAttachment.TAG:
+            return BLReviveTag(name, fname, bitmap_path, icon_path)
+
+        if self.PartID == UIAttachment.CAMO:
+            return BLReviveCamo(name, fname, bitmap_path, icon_path)
+
+    def reset_attachment(self):
+        self.ui_text.SetLabel('')
+        self.ui_bitmap.SetBitmap(wx.NullBitmap)
+
+    def handle_reset_attachment(self):
+        parentframe = get_parent_frame(self)
+
+        if self.PartID != UIAttachment.RECEIVER:
+            self.reset_attachment()
+        else:
+            for psp in parentframe.part_select_panels[1:]:
+                psp.reset_attachment()
+
+        parentframe.export_current_loadouts()
+
     def handle_ui_panel_selected(self):
-        parentframe = self.GetParent()
-        while parentframe.GetParent() is not None:
-            parentframe = parentframe.GetParent()
         self.ui_toggle.SetValue(True)
         if self.ui_toggle.GetValue():
-            parentframe.handle_gear_toggle_2(self.PartID)
+            get_parent_frame(self).handle_gear_toggle(self.PartID)
         else:
             self.ui_toggle.SetValue(True)
 
@@ -98,4 +186,4 @@ class PartSelectPanel(BitmapPanel):
         self.handle_ui_panel_selected()
 
     def ui_reset_OnButtonClick(self, event):
-        event.Skip()
+        self.handle_reset_attachment()
